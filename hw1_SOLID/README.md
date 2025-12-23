@@ -10,7 +10,7 @@
 
 ## Реализация принципов SOLID
 
-```memraid
+```mermaid
 classDiagram
     class AnimalInformationProvider {
         <<interface>>
