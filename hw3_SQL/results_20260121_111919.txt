@@ -1,0 +1,432 @@
+==============================
+SQL Query Results
+Date: Wed Jan 21 11:19:21 MSK 2026
+==============================
+
+### 01_active_eur_accounts.sql
+
+-- Query source:
+SELECT *
+FROM accounts
+WHERE status = 'active'
+  AND currency = 'EUR'
+  AND opened_at > '2024-01-01'
+ORDER BY opened_at;
+-- Query result:
+account_id|client_id|account_type|currency|opened_at|status
+11|11|debit|EUR|2024-11-06|active
+(1 row)
+
+
+### 02_client_account_info.sql
+
+-- Query source:
+SELECT c.full_name, a.account_type, a.currency, a.status
+FROM clients c
+JOIN accounts a ON c.client_id = a.client_id;
+-- Query result:
+full_name|account_type|currency|status
+Client 1|debit|EUR|closed
+Client 2|debit|EUR|closed
+Client 3|savings|RUB|blocked
+Client 4|credit|USD|active
+Client 5|savings|USD|closed
+Client 6|savings|RUB|blocked
+Client 7|savings|EUR|active
+Client 8|debit|RUB|closed
+Client 9|savings|EUR|blocked
+Client 10|savings|RUB|blocked
+Client 11|debit|EUR|active
+Client 12|credit|USD|closed
+Client 13|credit|USD|active
+Client 14|debit|USD|blocked
+Client 15|savings|EUR|blocked
+Client 16|savings|RUB|active
+Client 17|credit|EUR|closed
+Client 18|savings|USD|active
+Client 19|credit|EUR|closed
+Client 20|debit|RUB|closed
+Client 21|debit|EUR|blocked
+Client 22|debit|USD|closed
+Client 23|savings|EUR|blocked
+Client 24|credit|USD|closed
+Client 25|credit|RUB|active
+Client 26|debit|USD|blocked
+Client 27|credit|RUB|active
+Client 28|credit|RUB|closed
+Client 29|credit|USD|blocked
+Client 30|savings|USD|closed
+Client 31|savings|USD|blocked
+Client 32|debit|RUB|active
+Client 33|credit|RUB|active
+Client 34|savings|USD|active
+Client 35|savings|USD|active
+Client 36|savings|RUB|blocked
+Client 37|savings|RUB|closed
+Client 38|debit|RUB|closed
+Client 39|savings|EUR|blocked
+Client 40|debit|RUB|closed
+Client 41|debit|USD|active
+Client 42|savings|USD|blocked
+Client 43|savings|EUR|blocked
+Client 44|debit|EUR|active
+Client 45|debit|USD|closed
+Client 46|credit|USD|blocked
+Client 47|credit|EUR|blocked
+Client 48|debit|USD|closed
+Client 49|savings|USD|active
+Client 50|savings|RUB|closed
+(50 rows)
+
+
+### 03_clients_with_account_count.sql
+
+-- Query source:
+SELECT c.full_name, COUNT(a.account_id) AS account_count
+FROM clients c
+LEFT JOIN accounts a ON c.client_id = a.client_id
+GROUP BY c.client_id, c.full_name;
+-- Query result:
+full_name|account_count
+Client 22|1
+Client 44|1
+Client 11|1
+Client 42|1
+Client 40|1
+Client 43|1
+Client 9|1
+Client 15|1
+Client 48|1
+Client 26|1
+Client 19|1
+Client 30|1
+Client 21|1
+Client 3|1
+Client 17|1
+Client 37|1
+Client 28|1
+Client 5|1
+Client 29|1
+Client 4|1
+Client 34|1
+Client 10|1
+Client 35|1
+Client 45|1
+Client 6|1
+Client 39|1
+Client 36|1
+Client 31|1
+Client 50|1
+Client 14|1
+Client 13|1
+Client 2|1
+Client 16|1
+Client 41|1
+Client 46|1
+Client 32|1
+Client 7|1
+Client 38|1
+Client 12|1
+Client 24|1
+Client 25|1
+Client 49|1
+Client 47|1
+Client 20|1
+Client 33|1
+Client 1|1
+Client 18|1
+Client 27|1
+Client 23|1
+Client 8|1
+(50 rows)
+
+
+### 04_clients_more_than_2_active_accounts.sql
+
+-- Query source:
+SELECT c.full_name
+FROM clients c
+JOIN accounts a ON c.client_id = a.client_id
+WHERE a.status = 'active'
+GROUP BY c.client_id, c.full_name
+HAVING COUNT(a.account_id) > 2;
+-- Query result:
+full_name
+(0 rows)
+
+
+### 05_accounts_above_avg_incoming.sql
+
+-- Query source:
+WITH incoming_totals AS (
+    SELECT account_id, SUM(amount) AS total_incoming
+    FROM transactions
+    WHERE txn_type IN ('deposit', 'transfer_in')
+    GROUP BY account_id
+),
+bank_avg AS (
+    SELECT AVG(total_incoming) AS avg_incoming
+    FROM incoming_totals
+)
+SELECT i.account_id, i.total_incoming
+FROM incoming_totals i
+CROSS JOIN bank_avg b
+WHERE i.total_incoming > b.avg_incoming;
+-- Query result:
+account_id|total_incoming
+1|34903.03
+2|49518.60
+5|36944.43
+8|36233.83
+10|36392.70
+12|46276.12
+13|36133.37
+14|36430.95
+15|32508.29
+16|33478.56
+20|41642.71
+22|40167.67
+24|31016.11
+25|41871.22
+27|45665.76
+29|37889.39
+34|67697.85
+35|50003.65
+42|35178.48
+43|39116.85
+45|38450.28
+46|39930.05
+(22 rows)
+
+
+### 06_top5_turnover_2025.sql
+
+-- Query source:
+SELECT c.full_name, SUM(t.amount) AS total_turnover
+FROM clients c
+JOIN accounts a ON c.client_id = a.client_id
+JOIN transactions t ON a.account_id = t.account_id
+WHERE EXTRACT(YEAR FROM t.txn_date) = 2025
+GROUP BY c.client_id, c.full_name
+ORDER BY total_turnover DESC
+LIMIT 5;
+-- Query result:
+full_name|total_turnover
+Client 42|54576.30
+Client 37|45256.81
+Client 13|44292.81
+Client 38|43782.38
+Client 2|39743.22
+(5 rows)
+
+
+### 07_client_activity_level.sql
+
+-- Query source:
+WITH client_txn_counts AS (
+    SELECT c.client_id, c.full_name,
+           COUNT(t.transaction_id) AS txn_count
+    FROM clients c
+    LEFT JOIN accounts a ON c.client_id = a.client_id
+    LEFT JOIN transactions t ON a.account_id = t.account_id
+        AND t.txn_date >= CURRENT_DATE - INTERVAL '90 days'
+    GROUP BY c.client_id, c.full_name
+)
+SELECT full_name,
+       CASE
+           WHEN txn_count = 0 THEN 'inactive'
+           WHEN txn_count BETWEEN 1 AND 5 THEN 'low'
+           WHEN txn_count BETWEEN 6 AND 20 THEN 'medium'
+           WHEN txn_count > 20 THEN 'high'
+       END AS activity_level
+FROM client_txn_counts;
+-- Query result:
+full_name|activity_level
+Client 22|inactive
+Client 44|inactive
+Client 11|medium
+Client 42|low
+Client 40|medium
+Client 43|low
+Client 9|low
+Client 15|inactive
+Client 48|inactive
+Client 26|inactive
+Client 19|inactive
+Client 30|low
+Client 21|medium
+Client 3|medium
+Client 17|low
+Client 37|medium
+Client 28|medium
+Client 5|medium
+Client 29|medium
+Client 4|inactive
+Client 34|medium
+Client 10|medium
+Client 35|medium
+Client 45|medium
+Client 6|inactive
+Client 39|medium
+Client 36|medium
+Client 31|inactive
+Client 50|inactive
+Client 14|low
+Client 13|medium
+Client 2|low
+Client 16|inactive
+Client 41|medium
+Client 46|medium
+Client 32|medium
+Client 7|inactive
+Client 38|medium
+Client 12|medium
+Client 24|medium
+Client 25|inactive
+Client 49|medium
+Client 47|medium
+Client 20|medium
+Client 33|inactive
+Client 1|low
+Client 18|medium
+Client 27|medium
+Client 23|medium
+Client 8|inactive
+(50 rows)
+
+
+### 08_loans_underpaid.sql
+
+-- Query source:
+SELECT l.loan_id, l.client_id, l.principal,
+       COALESCE(SUM(lp.amount), 0) AS paid_amount
+FROM loans l
+LEFT JOIN loan_payments lp ON l.loan_id = lp.loan_id AND lp.status = 'success'
+GROUP BY l.loan_id, l.client_id, l.principal
+HAVING COALESCE(SUM(lp.amount), 0) < l.principal * 0.5;
+-- Query result:
+loan_id|client_id|principal|paid_amount
+22|41|19726.95|4804.87
+19|32|23243.75|5038.89
+4|7|41954.89|8175.45
+10|18|8868.53|1218.93
+6|11|28503.27|0
+13|24|7571.62|1330.85
+2|4|18777.68|1244.35
+18|30|19935.63|0
+11|20|21956.82|7090.26
+9|16|44165.83|2830.32
+21|38|45669.60|9149.46
+3|5|34508.56|0
+12|21|28701.70|0
+23|43|18365.13|3289.05
+15|26|36252.91|12373.59
+5|8|36128.58|0
+14|25|7798.68|1335.69
+7|12|15262.18|3253.69
+20|33|11976.58|0
+1|2|29394.88|6237.35
+8|15|20976.98|2338.72
+17|29|35790.57|7608.01
+16|27|26497.63|7493.52
+24|48|6044.64|860.73
+25|50|35987.36|0
+(25 rows)
+
+
+### 09_active_cards_with_owner.sql
+
+-- Query source:
+SELECT c.full_name, cr.account_id, cr.expires_at
+FROM cards cr
+JOIN accounts a ON cr.account_id = a.account_id
+JOIN clients c ON a.client_id = c.client_id
+WHERE cr.status = 'active';
+-- Query result:
+full_name|account_id|expires_at
+Client 4|4|2025-01-12
+Client 7|7|2025-09-06
+Client 11|11|2028-11-06
+Client 16|16|2026-09-21
+Client 18|18|2031-11-30
+Client 25|25|2027-01-19
+Client 27|27|2030-12-04
+Client 32|32|2030-05-28
+Client 33|33|2025-12-22
+Client 34|34|2029-10-15
+Client 35|35|2028-03-20
+Client 41|41|2028-08-18
+Client 44|44|2026-02-11
+Client 49|49|2028-01-20
+(14 rows)
+
+
+### 10_account_debits_summary.sql
+
+-- Query source:
+SELECT a.account_id,
+       COUNT(t.transaction_id) AS transaction_count,
+       COALESCE(SUM(
+           CASE
+               WHEN t.txn_type IN ('withdrawal', 'transfer_out', 'fee') THEN t.amount
+               ELSE 0
+           END
+       ), 0) AS total_debits
+FROM accounts a
+LEFT JOIN transactions t ON a.account_id = t.account_id
+GROUP BY a.account_id;
+-- Query result:
+account_id|transaction_count|total_debits
+22|15|35347.33
+42|15|42500.56
+40|15|59086.70
+43|15|23102.27
+19|15|56967.65
+29|15|39839.02
+4|15|46126.43
+10|15|44349.75
+35|15|31152.70
+6|15|46734.72
+50|15|69598.54
+13|15|57536.17
+2|15|15515.98
+38|15|58506.05
+47|15|61073.30
+18|15|55735.94
+27|15|47798.39
+44|15|46926.90
+11|15|46117.20
+9|15|50315.63
+30|15|53289.48
+21|15|37695.59
+3|15|47963.04
+34|15|18893.14
+39|15|79439.50
+41|15|38531.95
+46|15|37291.27
+32|15|71221.42
+12|15|48734.32
+33|15|51950.03
+23|15|65210.39
+15|15|36635.81
+48|15|43614.09
+5|15|36964.66
+31|15|60282.06
+14|15|50575.97
+7|15|62470.58
+20|15|48893.61
+1|15|35301.46
+8|15|31763.94
+26|15|25894.59
+17|15|36608.54
+37|15|65612.91
+28|15|55911.67
+45|15|36161.83
+36|15|48875.80
+16|15|41283.98
+24|15|20685.71
+25|15|30885.85
+49|15|43614.09
+(50 rows)
+
+
