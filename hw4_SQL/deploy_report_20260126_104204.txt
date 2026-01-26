@@ -1,0 +1,5 @@
+Database: messenger_db
+User: messenger_user
+Host: localhost
+Port: 5432
+Template used: template0

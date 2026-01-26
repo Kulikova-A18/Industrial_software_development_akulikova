@@ -1,0 +1,132 @@
+ALTER DATABASE
+ALTER DATABASE
+ALTER ROLE
+Recreate database? (y/N): 
+DROP DATABASE
+CREATE DATABASE
+GRANT
+GRANT
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+CREATE INDEX
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+CREATE EXTENSION
+INSERT 0 4
+INSERT 0 5
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+INSERT 0 6
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+DROP TRIGGER
+CREATE TRIGGER
+CREATE PROCEDURE
+CREATE PROCEDURE
+CREATE VIEW
+CREATE VIEW
+CREATE VIEW
+DELETE 0
+INSERT 0 1
+INSERT 0 1
+DELETE 0
+INSERT 0 8
+INSERT 0 8
+DELETE 0
+INSERT 0 6
+INSERT 0 4
+         info          
+-----------------------
+ DATABASE VERIFICATION
+(1 row)
+
+  table_name   | count 
+---------------+-------
+ Users:        |     9
+ Chats:        |     2
+ Messages:     |    10
+ Chat members: |    16
+(4 rows)
+
+     info      
+---------------
+ FIRST 5 USERS
+(1 row)
+
+ user_id | username |             email             | is_active 
+---------+----------+-------------------------------+-----------
+       0 | system   | system@messenger.internal     | t
+       1 | admin    | admin@messenger.example.com   | t
+       2 | support  | support@messenger.example.com | t
+       3 | alice    | alice@example.com             | t
+       4 | bob      | bob@example.com               | t
+(5 rows)
+
+    info    
+------------
+ TEST CHATS
+(1 row)
+
+ chat_id |       chat_name        |  type   | created_by 
+---------+------------------------+---------+------------
+       1 | Technical Support      | channel | support
+       2 | General Messenger Chat | group   | admin
+(2 rows)
+
