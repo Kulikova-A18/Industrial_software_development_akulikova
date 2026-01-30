@@ -1,4 +1,4 @@
-# Отчет по лабораторной работе: Настройка сетевого фильтра UFW
+# Отчет по домашней работе. Настроить сетевой фильтр с помощью ufw
 
 ## Архитектура системы
 
@@ -210,18 +210,16 @@ sequenceDiagram
 ### 2. Правила UFW
 
 ```bash
-# Базовые политики
 ufw default deny incoming
 ufw default allow outgoing
 
-# Специфичные правила
-ufw allow from 192.168.55.90 to any port 22 proto tcp      # SSH для админа
-ufw allow from 192.168.55.90 to any port 9090 proto tcp    # Prometheus для админа
-ufw allow from 192.168.55.90 to any port 9100 proto tcp    # Node Exporter для админа
-ufw allow from 127.0.0.1 to any port 9090 proto tcp        # Prometheus localhost
-ufw allow from 127.0.0.1 to any port 9100 proto tcp        # Node Exporter localhost
-ufw allow from 192.168.55.10/28 to any port 3000 proto tcp # Grafana для аналитиков
-ufw allow from 192.168.55.91/27 to any port 3000 proto tcp # Grafana для разработчиков
+ufw allow from 192.168.55.90 to any port 22 proto tcp 
+ufw allow from 192.168.55.90 to any port 9090 proto tcp
+ufw allow from 192.168.55.90 to any port 9100 proto tcp
+ufw allow from 127.0.0.1 to any port 9090 proto tcp
+ufw allow from 127.0.0.1 to any port 9100 proto tcp
+ufw allow from 192.168.55.10/28 to any port 3000 proto tcp
+ufw allow from 192.168.55.91/27 to any port 3000 proto tcp
 ```
 
 ### 3. Этапы настройки сервера
@@ -264,17 +262,18 @@ ufw allow from 192.168.55.91/27 to any port 3000 proto tcp # Grafana для ра
 
 1. Проверка правил UFW:
 
-   ```bash
-   sudo ufw status verbose
-   ```
+```bash
+sudo ufw status verbose
+```
 
 2. Проверка запущенных сервисов:
 
-   ```bash
-   sudo docker ps
-   ```
+```bash
+sudo docker ps
+```
 
 3. Проверка доступности сервисов:
-   - Grafana: http://192.168.55.50:3000 (admin/admin123)
-   - Prometheus: http://192.168.55.50:9090
-   - Node Exporter: http://192.168.55.50:9100/metrics
+
+- Grafana: http://192.168.55.50:3000 (admin/admin123)
+- Prometheus: http://192.168.55.50:9090
+- Node Exporter: http://192.168.55.50:9100/metrics

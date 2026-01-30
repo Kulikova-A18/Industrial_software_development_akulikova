@@ -8,8 +8,7 @@ Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
   config.ssh.pty = true
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  
-  # ==================== СЕРВЕР КОМПАНИИ ====================
+
   config.vm.define "server", primary: true do |server|
     server.vm.hostname = "company-server"
     server.vm.network "private_network", ip: "192.168.55.50"
@@ -22,31 +21,12 @@ Vagrant.configure("2") do |config|
     end
     
     server.vm.provision "shell", inline: <<-SHELL
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                     НАСТРОЙКА СЕРВЕРА КОМПАНИИ"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 1/6: Ожидание инициализации сети..."
       sleep 10
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 2/6: Обновление системы и установка базовых пакетов..."
       apt-get update > /dev/null 2>&1
       apt-get install -y curl wget ufw > /dev/null 2>&1
-      echo "Система обновлена"
-      echo "UFW установлен"
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 3/6: Настройка UFW..."
-      # Сбрасываем UFW
       ufw --force reset > /dev/null 2>&1
-      
-      # Базовые политики
       ufw default deny incoming > /dev/null 2>&1
       ufw default allow outgoing > /dev/null 2>&1
-      
-      # Правила согласно заданию
       ufw allow from 192.168.55.90 to any port 22 proto tcp > /dev/null 2>&1
       ufw allow from 192.168.55.90 to any port 9090 proto tcp > /dev/null 2>&1
       ufw allow from 192.168.55.90 to any port 9100 proto tcp > /dev/null 2>&1
@@ -54,107 +34,25 @@ Vagrant.configure("2") do |config|
       ufw allow from 127.0.0.1 to any port 9100 proto tcp > /dev/null 2>&1
       ufw allow from 192.168.55.10/28 to any port 3000 proto tcp > /dev/null 2>&1
       ufw allow from 192.168.55.91/27 to any port 3000 proto tcp > /dev/null 2>&1
-      
-      # Включаем UFW
       echo "y" | ufw enable > /dev/null 2>&1
-      
-      echo "UFW настроен и включен"
-      echo ""
-      echo "Текущие правила UFW:"
-      echo "────────────────────────────────"
-      ufw status numbered | tail -n +3
-      echo "────────────────────────────────"
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 4/6: Установка Docker..."
       curl -fsSL https://get.docker.com -o get-docker.sh > /dev/null 2>&1
       sh get-docker.sh > /dev/null 2>&1
       rm get-docker.sh
-      echo "Docker установлен"
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 5/6: Запуск сервисов мониторинга..."
-      # Запускаем Grafana
       docker run -d --name grafana -p 3000:3000 \
         -e GF_SECURITY_ADMIN_PASSWORD=admin123 \
         grafana/grafana > /dev/null 2>&1
-      echo "Grafana запущен на порту 3000"
-      
-      # Запускаем Prometheus
       mkdir -p /tmp/prometheus
       echo 'global: scrape_interval: 15s' > /tmp/prometheus/prometheus.yml
       docker run -d --name prometheus -p 9090:9090 \
         -v /tmp/prometheus:/etc/prometheus \
         prom/prometheus > /dev/null 2>&1
-      echo "Prometheus запущен на порту 9090"
-      
-      # Запускаем Node Exporter
       docker run -d --name node-exporter -p 9100:9100 \
         --pid="host" \
         prom/node-exporter > /dev/null 2>&1
-      echo "Node Exporter запущен на порту 9100"
-      
-      # Ждем запуска сервисов
       sleep 5
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 6/6: Финальная проверка..."
-      echo ""
-      echo "Запущенные контейнеры:"
-      echo "────────────────────────────────"
-      docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
-      echo "────────────────────────────────"
-      
-      echo ""
-      echo "Проверка доступности сервисов:"
-      echo -n "• Grafana (3000):      "
-      curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/login && echo " ✓" || echo " ✗"
-      
-      echo -n "• Prometheus (9090):   "
-      curl -s -o /dev/null -w "%{http_code}" http://localhost:9090 && echo " ✓" || echo " ✗"
-      
-      echo -n "• Node Exporter (9100): "
-      curl -s -o /dev/null -w "%{http_code}" http://localhost:9100 && echo " ✓" || echo " ✗"
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                     НАСТРОЙКА ЗАВЕРШЕНА!"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo ""
-      echo "┌────────────────────────────────────────────────────────────────────┐"
-      echo "│                          ИНФОРМАЦИЯ ДЛЯ ДОСТУПА                    │"
-      echo "├────────────────────────────────────────────────────────────────────┤"
-      echo "│ Сервер: 192.168.55.50                                             │"
-      echo "│ SSH доступ: vagrant@192.168.55.50:22                              │"
-      echo "│ Логин/пароль SSH: vagrant/vagrant                                 │"
-      echo "├────────────────────────────────────────────────────────────────────┤"
-      echo "│                         ДОСТУП К СЕРВИСАМ                         │"
-      echo "├────────────────────────────────────────────────────────────────────┤"
-      echo "│ Grafana:      http://192.168.55.50:3000                           │"
-      echo "│ Логин: admin                Пароль: admin123                      │"
-      echo "│ Доступ: аналитики (192.168.55.10-30) и разработчики (91-128)      │"
-      echo "│                                                                   │"
-      echo "│ Prometheus:   http://192.168.55.50:9090                           │"
-      echo "│ Доступ: только с 192.168.55.90 (админ)                            │"
-      echo "│                                                                   │"
-      echo "│ Node Exporter: http://192.168.55.50:9100                          │"
-      echo "│ Доступ: только с 192.168.55.90 (админ)                            │"
-      echo "│                                                                   │"
-      echo "│ SSH:          192.168.55.50:22                                    │"
-      echo "│ Доступ: только с 192.168.55.90 (админ)                            │"
-      echo "└────────────────────────────────────────────────────────────────────┘"
-      echo ""
-      echo "Для проверки UFW: sudo ufw status verbose"
-      echo "Для проверки сервисов: sudo docker ps"
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
     SHELL
   end
-  
-  # ==================== ПК АДМИНИСТРАТОРА ====================
+
   config.vm.define "admin" do |admin|
     admin.vm.hostname = "admin-pc"
     admin.vm.network "private_network", ip: "192.168.55.90"
@@ -167,85 +65,37 @@ Vagrant.configure("2") do |config|
     end
     
     admin.vm.provision "shell", inline: <<-SHELL
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                   НАСТРОЙКА ПК АДМИНИСТРАТОРА"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 1/2: Обновление системы..."
       apt-get update > /dev/null 2>&1
       apt-get install -y curl netcat-openbsd > /dev/null 2>&1
-      
-      echo ""
-      echo "Этап 2/2: Создание тестового скрипта..."
       cat > /home/vagrant/test_admin.sh << 'EOF'
 #!/bin/bash
-echo "══════════════════════════════════════════════════════════════════════"
-echo "           ТЕСТИРОВАНИЕ С ПК АДМИНИСТРАТОРА"
-echo "══════════════════════════════════════════════════════════════════════"
-echo "IP админского ПК: 192.168.55.90"
-echo "IP сервера: 192.168.55.50"
-echo ""
-echo "По заданию должны быть доступны:"
-echo "• SSH (22) - ✓"
-echo "• Prometheus (9090) - ✓"
-echo "• Node Exporter (9100) - ✓"
-echo "• Grafana (3000) - ✗ (не должен быть доступен)"
-echo ""
-
 test_access() {
     local port=$1
     local service=$2
     local expected=$3
-    echo -n "• $service (порт $port): "
     if timeout 2 nc -z 192.168.55.50 $port 2>/dev/null; then
         if [ "$expected" = "open" ]; then
-            echo -e "\033[32mДОСТУПЕН ✓\033[0m"
+            echo "$service (порт $port): ДОСТУПЕН"
         else
-            echo -e "\033[31mОШИБКА: доступен, но не должен быть! ✗\033[0m"
+            echo "$service (порт $port): ОШИБКА"
         fi
     else
         if [ "$expected" = "closed" ]; then
-            echo -e "\033[32mЗАБЛОКИРОВАН ✓\033[0m"
+            echo "$service (порт $port): ЗАБЛОКИРОВАН"
         else
-            echo -e "\033[31mОШИБКА: заблокирован, но должен быть доступен! ✗\033[0m"
+            echo "$service (порт $port): ОШИБКА"
         fi
     fi
 }
-
-echo "Тестирование:"
 test_access 22 "SSH" "open"
 test_access 9090 "Prometheus" "open"
 test_access 9100 "Node Exporter" "open"
 test_access 3000 "Grafana" "closed"
-
-echo ""
-echo "══════════════════════════════════════════════════════════════════════"
-echo "Для подключения к серверу: ssh vagrant@192.168.55.50"
-echo "Пароль: vagrant"
-echo "══════════════════════════════════════════════════════════════════════"
 EOF
-      
       chmod +x /home/vagrant/test_admin.sh
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                   НАСТРОЙКА ЗАВЕРШЕНА!"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo ""
-      echo "Данные для доступа:"
-      echo "• IP: 192.168.55.90"
-      echo "• Логин: vagrant"
-      echo "• Пароль: vagrant"
-      echo ""
-      echo "Для тестирования выполните:"
-      echo "  ./test_admin.sh"
-      echo ""
-      echo "Для подключения к серверу:"
-      echo "  ssh vagrant@192.168.55.50"
-      echo "══════════════════════════════════════════════════════════════════════"
     SHELL
   end
-  
-  # ==================== ПК РАЗРАБОТЧИКА ====================
+
   config.vm.define "developer" do |dev|
     dev.vm.hostname = "developer-pc"
     dev.vm.network "private_network", ip: "192.168.55.91"
@@ -258,88 +108,37 @@ EOF
     end
     
     dev.vm.provision "shell", inline: <<-SHELL
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                   НАСТРОЙКА ПК РАЗРАБОТЧИКА"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 1/2: Обновление системы..."
       apt-get update > /dev/null 2>&1
       apt-get install -y curl netcat-openbsd > /dev/null 2>&1
-      
-      echo ""
-      echo "Этап 2/2: Создание тестового скрипта..."
       cat > /home/vagrant/test_developer.sh << 'EOF'
 #!/bin/bash
-echo "══════════════════════════════════════════════════════════════════════"
-echo "           ТЕСТИРОВАНИЕ С ПК РАЗРАБОТЧИКА"
-echo "══════════════════════════════════════════════════════════════════════"
-echo "IP ПК разработчика: 192.168.55.91"
-echo "IP сервера: 192.168.55.50"
-echo ""
-echo "По заданию должны быть доступны:"
-echo "• SSH (22) - ✗"
-echo "• Prometheus (9090) - ✗"
-echo "• Node Exporter (9100) - ✗"
-echo "• Grafana (3000) - ✓"
-echo ""
-
 test_access() {
     local port=$1
     local service=$2
     local expected=$3
-    echo -n "• $service (порт $port): "
     if timeout 2 nc -z 192.168.55.50 $port 2>/dev/null; then
         if [ "$expected" = "open" ]; then
-            echo -e "\033[32mДОСТУПЕН ✓\033[0m"
+            echo "$service (порт $port): ДОСТУПЕН"
         else
-            echo -e "\033[31mОШИБКА: доступен, но не должен быть! ✗\033[0m"
+            echo "$service (порт $port): ОШИБКА"
         fi
     else
         if [ "$expected" = "closed" ]; then
-            echo -e "\033[32mЗАБЛОКИРОВАН ✓\033[0m"
+            echo "$service (порт $port): ЗАБЛОКИРОВАН"
         else
-            echo -e "\033[31mОШИБКА: заблокирован, но должен быть доступен! ✗\033[0m"
+            echo "$service (порт $port): ОШИБКА"
         fi
     fi
 }
-
-echo "Тестирование:"
 test_access 22 "SSH" "closed"
 test_access 9090 "Prometheus" "closed"
 test_access 9100 "Node Exporter" "closed"
 test_access 3000 "Grafana" "open"
-
-echo ""
-echo "══════════════════════════════════════════════════════════════════════"
-echo "Grafana доступен по адресу: http://192.168.55.50:3000"
-echo "Логин: admin"
-echo "Пароль: admin123"
-echo "══════════════════════════════════════════════════════════════════════"
 EOF
-      
       chmod +x /home/vagrant/test_developer.sh
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                   НАСТРОЙКА ЗАВЕРШЕНА!"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo ""
-      echo "Данные для доступа:"
-      echo "• IP: 192.168.55.91"
-      echo "• Логин: vagrant"
-      echo "• Пароль: vagrant"
-      echo ""
-      echo "Для тестирования выполните:"
-      echo "  ./test_developer.sh"
-      echo ""
-      echo "Для доступа к Grafana:"
-      echo "  Откройте браузер и перейдите по адресу http://192.168.55.50:3000"
-      echo "  Логин: admin"
-      echo "  Пароль: admin123"
-      echo "══════════════════════════════════════════════════════════════════════"
     SHELL
   end
-  
-  # ==================== ПК АНАЛИТИКА ====================
+
   config.vm.define "analyst" do |analyst|
     analyst.vm.hostname = "analyst-pc"
     analyst.vm.network "private_network", ip: "192.168.55.15"
@@ -352,31 +151,8 @@ EOF
     end
     
     analyst.vm.provision "shell", inline: <<-SHELL
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                   НАСТРОЙКА ПК АНАЛИТИКА"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "Этап 1/1: Обновление системы..."
       apt-get update > /dev/null 2>&1
       apt-get install -y curl > /dev/null 2>&1
-      
-      echo ""
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo "                   НАСТРОЙКА ЗАВЕРШЕНА!"
-      echo "══════════════════════════════════════════════════════════════════════"
-      echo ""
-      echo "Данные для доступа:"
-      echo "• IP: 192.168.55.15"
-      echo "• Логин: vagrant"
-      echo "• Пароль: vagrant"
-      echo ""
-      echo "Проверьте доступность Grafana:"
-      echo "  curl -I http://192.168.55.50:3000"
-      echo ""
-      echo "Grafana должен быть доступен по адресу:"
-      echo "  http://192.168.55.50:3000"
-      echo "  Логин: admin"
-      echo "  Пароль: admin123"
-      echo "══════════════════════════════════════════════════════════════════════"
     SHELL
   end
 end
