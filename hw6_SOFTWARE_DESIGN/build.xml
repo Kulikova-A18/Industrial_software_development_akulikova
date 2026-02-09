@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="TigerBank" default="all" basedir=".">
+    
+    <property name="src.dir" value="."/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.dir" value="test"/>
+    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
+    <property name="test.reports.dir" value="${build.dir}/test-reports"/>
+    <property name="lib.dir" value="lib"/>
+    
+    <!-- Пути к библиотекам -->
+    <path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+    
+    <path id="test.classpath">
+        <path refid="classpath"/>
+        <pathelement location="${classes.dir}"/>
+    </path>
+    
+    <!-- Цели -->
+    <target name="init">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+        <mkdir dir="${test.reports.dir}"/>
+    </target>
+    
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+        <delete dir="${lib.dir}"/>
+    </target>
+    
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" includeantruntime="false">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+    
+    <target name="compile-tests" depends="compile">
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" includeantruntime="false">
+            <classpath refid="test.classpath"/>
+        </javac>
+    </target>
+    
+    <target name="test" depends="compile-tests">
+        <junit printsummary="yes" haltonfailure="no">
+            <classpath>
+                <path refid="test.classpath"/>
+                <pathelement location="${test.classes.dir}"/>
+            </classpath>
+            
+            <formatter type="xml"/>
+            <formatter type="plain" usefile="false"/>
+            
+            <batchtest fork="yes" todir="${test.reports.dir}">
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+    
+    <target name="run" depends="compile">
+        <java classname="com.tigerbank.Main" fork="true">
+            <classpath>
+                <path refid="classpath"/>
+                <pathelement location="${classes.dir}"/>
+            </classpath>
+        </java>
+    </target>
+    
+    <target name="all" depends="clean, test, run"/>
+    
+</project>
