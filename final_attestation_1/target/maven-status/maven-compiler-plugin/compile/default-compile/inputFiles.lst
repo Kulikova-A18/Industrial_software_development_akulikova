@@ -1,0 +1,13 @@
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/model/Reader.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/service/LoanService.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/dao/BookDAO.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/config/DatabaseConfig.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/service/StatisticsService.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/service/BookService.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/ui/ConsoleUI.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/Main.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/dao/LoanDAO.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/model/Book.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/model/Loan.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/service/ReaderService.java
+/home/vboxuser/Industrial_software_development_akulikova/final_attestation_1/src/main/java/com/library/dao/ReaderDAO.java

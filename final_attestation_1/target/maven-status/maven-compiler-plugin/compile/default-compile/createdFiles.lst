@@ -1,0 +1,13 @@
+com/library/dao/ReaderDAO.class
+com/library/Main.class
+com/library/model/Loan.class
+com/library/service/BookService.class
+com/library/dao/LoanDAO.class
+com/library/dao/BookDAO.class
+com/library/ui/ConsoleUI.class
+com/library/config/DatabaseConfig.class
+com/library/service/StatisticsService.class
+com/library/service/ReaderService.class
+com/library/service/LoanService.class
+com/library/model/Book.class
+com/library/model/Reader.class
