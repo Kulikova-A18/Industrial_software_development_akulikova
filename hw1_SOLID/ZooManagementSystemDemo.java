@@ -1,16 +1,19 @@
 /**
  * Provides essential identity information about any zoo animal.
- * Decouples reporting, logging, or UI components from concrete animal implementations.
+ * Decouples reporting, logging, or UI components from concrete animal
+ * implementations.
  */
 interface AnimalInformationProvider {
     /**
      * Returns the given name of the animal (e.g., "Kesha").
+     * 
      * @return String representing the animal's personal name
      */
     String getAnimalName();
 
     /**
      * Returns the biological species of the animal (e.g., "Parrot").
+     * 
      * @return String representing the animal's species
      */
     String getAnimalSpecies();
@@ -24,14 +27,17 @@ interface FeedableAnimal {
      * Delivers a specific type and quantity of food to the animal.
      * 
      * Example usage:
+     * 
      * <pre>{@code
      * FeedableAnimal animal = new Parrot("Kesha");
      * animal.feedAnimal("seeds", 50);
      * }</pre>
      * 
-     * @param foodType The kind of food (e.g., "seeds", "raw meat")
-     * @param foodAmountInGramsOrKilograms The amount: interpreted as grams for small animals, 
-     *        kg for large animals
+     * @param foodType                     The kind of food (e.g., "seeds", "raw
+     *                                     meat")
+     * @param foodAmountInGramsOrKilograms The amount: interpreted as grams for
+     *                                     small animals,
+     *                                     kg for large animals
      */
     void feedAnimal(String foodType, int foodAmountInGramsOrKilograms);
 }
@@ -44,6 +50,7 @@ interface HealableAnimal {
      * Conducts a mandatory veterinary health assessment.
      * 
      * Example usage:
+     * 
      * <pre>{@code
      * HealableAnimal animal = new Crocodile("Gena");
      * animal.performVeterinaryMedicalCheckup();
@@ -60,6 +67,7 @@ interface CleanableEnclosure {
      * Cleans the physical habitat (cage, pool, pen) assigned to the animal.
      * 
      * Example usage:
+     * 
      * <pre>{@code
      * CleanableEnclosure enclosure = new Crocodile("Gena");
      * enclosure.cleanAnimalEnclosure();
@@ -80,13 +88,14 @@ abstract class ZooAnimal implements AnimalInformationProvider {
      * Constructs a new ZooAnimal with the specified name and species.
      * 
      * Example usage:
+     * 
      * <pre>{@code
      * ZooAnimal animal = new Parrot("Kesha");
      * // or
      * ZooAnimal animal = new Crocodile("Gena");
      * }</pre>
      * 
-     * @param animalName The personal name of the animal
+     * @param animalName    The personal name of the animal
      * @param animalSpecies The biological species of the animal
      */
     public ZooAnimal(String animalName, String animalSpecies) {
@@ -106,9 +115,11 @@ abstract class ZooAnimal implements AnimalInformationProvider {
 }
 
 /**
- * A parrot — a bird that requires feeding and medical checks, but its cage cleaning is handled externally.
+ * A parrot — a bird that requires feeding and medical checks, but its cage
+ * cleaning is handled externally.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * Parrot parrot = new Parrot("Kesha");
  * parrot.feedAnimal("seeds", 50);
@@ -138,9 +149,11 @@ class Parrot extends ZooAnimal implements FeedableAnimal, HealableAnimal {
 }
 
 /**
- * A crocodile — a large reptile requiring feeding, medical examination, and enclosure sanitation.
+ * A crocodile — a large reptile requiring feeding, medical examination, and
+ * enclosure sanitation.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * Crocodile crocodile = new Crocodile("Gena");
  * crocodile.feedAnimal("raw meat", 5);
@@ -176,9 +189,11 @@ class Crocodile extends ZooAnimal implements FeedableAnimal, HealableAnimal, Cle
 }
 
 /**
- * Employee responsible for delivering food to animals according to dietary plans.
+ * Employee responsible for delivering food to animals according to dietary
+ * plans.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * ZookeeperEmployee zookeeper = new ZookeeperEmployee();
  * FeedableAnimal parrot = new Parrot("Kesha");
@@ -189,9 +204,10 @@ class ZookeeperEmployee {
     /**
      * Feeds a specified animal with the given type and amount of food.
      * 
-     * @param animal The animal to feed (must implement FeedableAnimal)
-     * @param foodType The type of food to provide
-     * @param foodAmount The amount of food (interpreted by the specific animal implementation)
+     * @param animal     The animal to feed (must implement FeedableAnimal)
+     * @param foodType   The type of food to provide
+     * @param foodAmount The amount of food (interpreted by the specific animal
+     *                   implementation)
      */
     public void feedSpecifiedAnimal(FeedableAnimal animal, String foodType, int foodAmount) {
         animal.feedAnimal(foodType, foodAmount);
@@ -202,6 +218,7 @@ class ZookeeperEmployee {
  * Licensed veterinarian who performs health inspections.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * VeterinarianEmployee vet = new VeterinarianEmployee();
  * HealableAnimal crocodile = new Crocodile("Gena");
@@ -223,6 +240,7 @@ class VeterinarianEmployee {
  * Sanitation staff member who maintains cleanliness of animal habitats.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * EnclosureCleanerEmployee cleaner = new EnclosureCleanerEmployee();
  * CleanableEnclosure crocodile = new Crocodile("Gena");
@@ -233,7 +251,8 @@ class EnclosureCleanerEmployee {
     /**
      * Cleans the enclosure of a specified animal.
      * 
-     * @param enclosure The animal enclosure to clean (must implement CleanableEnclosure)
+     * @param enclosure The animal enclosure to clean (must implement
+     *                  CleanableEnclosure)
      */
     public void cleanSpecifiedAnimalEnclosure(CleanableEnclosure enclosure) {
         enclosure.cleanAnimalEnclosure();
@@ -245,6 +264,7 @@ class EnclosureCleanerEmployee {
  * Delegates actual feeding to a ZookeeperEmployee.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * ZookeeperEmployee zookeeper = new ZookeeperEmployee();
  * AnimalFeedingOrchestrationService feedingService = new AnimalFeedingOrchestrationService(zookeeper);
@@ -256,7 +276,8 @@ class AnimalFeedingOrchestrationService {
     private final ZookeeperEmployee assignedZookeeper;
 
     /**
-     * Constructs a new AnimalFeedingOrchestrationService with a specified zookeeper.
+     * Constructs a new AnimalFeedingOrchestrationService with a specified
+     * zookeeper.
      * 
      * @param zookeeper The zookeeper who will perform the feeding operations
      */
@@ -268,22 +289,24 @@ class AnimalFeedingOrchestrationService {
      * Schedules and executes feeding for a target animal.
      * 
      * @param targetAnimal The animal to feed (must implement FeedableAnimal)
-     * @param foodType The type of food to provide
-     * @param foodAmount The amount of food (interpreted by the specific animal implementation)
+     * @param foodType     The type of food to provide
+     * @param foodAmount   The amount of food (interpreted by the specific animal
+     *                     implementation)
      */
     public void scheduleAndExecuteFeeding(
-        FeedableAnimal targetAnimal,
-        String foodType,
-        int foodAmount
-    ) {
+            FeedableAnimal targetAnimal,
+            String foodType,
+            int foodAmount) {
         assignedZookeeper.feedSpecifiedAnimal(targetAnimal, foodType, foodAmount);
     }
 }
 
 /**
- * Service that manages mandatory veterinary inspections for all incoming or resident animals.
+ * Service that manages mandatory veterinary inspections for all incoming or
+ * resident animals.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * VeterinarianEmployee vet = new VeterinarianEmployee();
  * VeterinaryMedicalCheckupService medicalService = new VeterinaryMedicalCheckupService(vet);
@@ -295,7 +318,8 @@ class VeterinaryMedicalCheckupService {
     private final VeterinarianEmployee assignedVeterinarian;
 
     /**
-     * Constructs a new VeterinaryMedicalCheckupService with a specified veterinarian.
+     * Constructs a new VeterinaryMedicalCheckupService with a specified
+     * veterinarian.
      * 
      * @param veterinarian The veterinarian who will perform the medical checkups
      */
@@ -315,9 +339,11 @@ class VeterinaryMedicalCheckupService {
 
 /**
  * Main demonstration class for the Zoo Management System.
- * Simulates core zoo operations: feeding, medical checks, and enclosure cleaning.
+ * Simulates core zoo operations: feeding, medical checks, and enclosure
+ * cleaning.
  * 
  * Example usage:
+ * 
  * <pre>{@code
  * // Run the demonstration:
  * // 1. Compile: javac ZooManagementSystemDemo.java
@@ -326,7 +352,8 @@ class VeterinaryMedicalCheckupService {
  * // Expected output:
  * // Kesha eats 50 g of seeds
  * // Gena ate 5 kg of raw meat
- * // Medical check for parrot Kesha: beak and feathers are in good condition.
+ * // Medical check for parrot Kesha: beak and feathers are in good
+ * // condition.
  * // Medical check for crocodile Gena: teeth are in good condition.
  * // Enclosure for crocodile Gena has been cleaned.
  * }</pre>
@@ -345,10 +372,8 @@ public class ZooManagementSystemDemo {
         VeterinarianEmployee leadVeterinarian = new VeterinarianEmployee();
         EnclosureCleanerEmployee habitatCleaner = new EnclosureCleanerEmployee();
 
-        AnimalFeedingOrchestrationService feedingService = 
-            new AnimalFeedingOrchestrationService(primaryZookeeper);
-        VeterinaryMedicalCheckupService medicalService = 
-            new VeterinaryMedicalCheckupService(leadVeterinarian);
+        AnimalFeedingOrchestrationService feedingService = new AnimalFeedingOrchestrationService(primaryZookeeper);
+        VeterinaryMedicalCheckupService medicalService = new VeterinaryMedicalCheckupService(leadVeterinarian);
 
         feedingService.scheduleAndExecuteFeeding(namedParrot, "seeds", 50);
         feedingService.scheduleAndExecuteFeeding(namedCrocodile, "raw meat", 5);

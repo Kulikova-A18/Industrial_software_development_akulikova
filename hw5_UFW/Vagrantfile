@@ -1,0 +1,158 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.boot_timeout = 600
+  config.vm.box = "ubuntu/jammy64"
+  config.vm.box_check_update = false
+  config.ssh.insert_key = false
+  config.ssh.pty = true
+  config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  config.vm.define "server", primary: true do |server|
+    server.vm.hostname = "company-server"
+    server.vm.network "private_network", ip: "192.168.55.50"
+    
+    server.vm.provider "virtualbox" do |vb|
+      vb.name = "company-server"
+      vb.memory = "2048"
+      vb.cpus = 2
+      vb.gui = false
+    end
+    
+    server.vm.provision "shell", inline: <<-SHELL
+      sleep 10
+      apt-get update > /dev/null 2>&1
+      apt-get install -y curl wget ufw > /dev/null 2>&1
+      ufw --force reset > /dev/null 2>&1
+      ufw default deny incoming > /dev/null 2>&1
+      ufw default allow outgoing > /dev/null 2>&1
+      ufw allow from 192.168.55.90 to any port 22 proto tcp > /dev/null 2>&1
+      ufw allow from 192.168.55.90 to any port 9090 proto tcp > /dev/null 2>&1
+      ufw allow from 192.168.55.90 to any port 9100 proto tcp > /dev/null 2>&1
+      ufw allow from 127.0.0.1 to any port 9090 proto tcp > /dev/null 2>&1
+      ufw allow from 127.0.0.1 to any port 9100 proto tcp > /dev/null 2>&1
+      ufw allow from 192.168.55.10/28 to any port 3000 proto tcp > /dev/null 2>&1
+      ufw allow from 192.168.55.91/27 to any port 3000 proto tcp > /dev/null 2>&1
+      echo "y" | ufw enable > /dev/null 2>&1
+      curl -fsSL https://get.docker.com -o get-docker.sh > /dev/null 2>&1
+      sh get-docker.sh > /dev/null 2>&1
+      rm get-docker.sh
+      docker run -d --name grafana -p 3000:3000 \
+        -e GF_SECURITY_ADMIN_PASSWORD=admin123 \
+        grafana/grafana > /dev/null 2>&1
+      mkdir -p /tmp/prometheus
+      echo 'global: scrape_interval: 15s' > /tmp/prometheus/prometheus.yml
+      docker run -d --name prometheus -p 9090:9090 \
+        -v /tmp/prometheus:/etc/prometheus \
+        prom/prometheus > /dev/null 2>&1
+      docker run -d --name node-exporter -p 9100:9100 \
+        --pid="host" \
+        prom/node-exporter > /dev/null 2>&1
+      sleep 5
+    SHELL
+  end
+
+  config.vm.define "admin" do |admin|
+    admin.vm.hostname = "admin-pc"
+    admin.vm.network "private_network", ip: "192.168.55.90"
+    
+    admin.vm.provider "virtualbox" do |vb|
+      vb.name = "admin-pc"
+      vb.memory = "512"
+      vb.cpus = 1
+      vb.gui = false
+    end
+    
+    admin.vm.provision "shell", inline: <<-SHELL
+      apt-get update > /dev/null 2>&1
+      apt-get install -y curl netcat-openbsd > /dev/null 2>&1
+      cat > /home/vagrant/test_admin.sh << 'EOF'
+#!/bin/bash
+test_access() {
+    local port=$1
+    local service=$2
+    local expected=$3
+    if timeout 2 nc -z 192.168.55.50 $port 2>/dev/null; then
+        if [ "$expected" = "open" ]; then
+            echo "$service (порт $port): ДОСТУПЕН"
+        else
+            echo "$service (порт $port): ОШИБКА"
+        fi
+    else
+        if [ "$expected" = "closed" ]; then
+            echo "$service (порт $port): ЗАБЛОКИРОВАН"
+        else
+            echo "$service (порт $port): ОШИБКА"
+        fi
+    fi
+}
+test_access 22 "SSH" "open"
+test_access 9090 "Prometheus" "open"
+test_access 9100 "Node Exporter" "open"
+test_access 3000 "Grafana" "closed"
+EOF
+      chmod +x /home/vagrant/test_admin.sh
+    SHELL
+  end
+
+  config.vm.define "developer" do |dev|
+    dev.vm.hostname = "developer-pc"
+    dev.vm.network "private_network", ip: "192.168.55.91"
+    
+    dev.vm.provider "virtualbox" do |vb|
+      vb.name = "developer-pc"
+      vb.memory = "512"
+      vb.cpus = 1
+      vb.gui = false
+    end
+    
+    dev.vm.provision "shell", inline: <<-SHELL
+      apt-get update > /dev/null 2>&1
+      apt-get install -y curl netcat-openbsd > /dev/null 2>&1
+      cat > /home/vagrant/test_developer.sh << 'EOF'
+#!/bin/bash
+test_access() {
+    local port=$1
+    local service=$2
+    local expected=$3
+    if timeout 2 nc -z 192.168.55.50 $port 2>/dev/null; then
+        if [ "$expected" = "open" ]; then
+            echo "$service (порт $port): ДОСТУПЕН"
+        else
+            echo "$service (порт $port): ОШИБКА"
+        fi
+    else
+        if [ "$expected" = "closed" ]; then
+            echo "$service (порт $port): ЗАБЛОКИРОВАН"
+        else
+            echo "$service (порт $port): ОШИБКА"
+        fi
+    fi
+}
+test_access 22 "SSH" "closed"
+test_access 9090 "Prometheus" "closed"
+test_access 9100 "Node Exporter" "closed"
+test_access 3000 "Grafana" "open"
+EOF
+      chmod +x /home/vagrant/test_developer.sh
+    SHELL
+  end
+
+  config.vm.define "analyst" do |analyst|
+    analyst.vm.hostname = "analyst-pc"
+    analyst.vm.network "private_network", ip: "192.168.55.15"
+    
+    analyst.vm.provider "virtualbox" do |vb|
+      vb.name = "analyst-pc"
+      vb.memory = "512"
+      vb.cpus = 1
+      vb.gui = false
+    end
+    
+    analyst.vm.provision "shell", inline: <<-SHELL
+      apt-get update > /dev/null 2>&1
+      apt-get install -y curl > /dev/null 2>&1
+    SHELL
+  end
+end
