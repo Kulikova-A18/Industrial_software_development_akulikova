@@ -1,0 +1,42 @@
+# CATEGORIES
+id,type,name
+ff54c1a1-c1c9-43ca-ae09-7e27cfe16978,EXPENSE,Спорт
+dd2f5de9-fcae-42d7-a916-a2b71ddf3305,INCOME,Возврат долга
+f70b24f0-e228-46a5-ae61-6365b2367b41,INCOME,Наследство
+f32c9096-4efa-4856-a7fb-1c361017deca,INCOME,Выигрыш
+dae7641c-9583-45be-a81b-d187d7dad306,EXPENSE,Образование
+8437ec2e-9eeb-4470-9d16-dc898611ca0a,EXPENSE,Подписки
+9722178d-f263-4d86-8e74-4facc1cddbd8,INCOME,Продажа
+c05123f1-c32c-4bb5-b9a2-b5f254de3cfd,EXPENSE,Дети
+b1f527c1-77d8-4c37-bb64-98382922a2aa,INCOME,Подарки
+dd74632b-1abc-4ab8-a24a-705be8b65fb3,EXPENSE,Дом/Ремонт
+d724ba05-00b9-4e48-9387-0bdad4864e1b,EXPENSE,Развлечения
+a90b0131-0cfb-4147-a1c0-df1c88586dd3,INCOME,Дивиденды
+cfb8c7b9-11a5-47ba-8e7e-a6e9d27ef166,EXPENSE,Книги
+d09e616c-2032-4f18-bb0c-0ab371872cf6,EXPENSE,Рестораны/Кафе
+a4e1714f-e5be-4081-82db-f576079bc0b1,EXPENSE,Налоги
+96c6ff1a-d2bc-4f5a-abad-b8b85c50ec68,EXPENSE,Благотворительность
+c4cf0d5e-5d5c-4a31-b2b3-3b602e6e8159,EXPENSE,Путешествия
+537c19b8-0e3d-4fa8-9915-d68bf9c72f12,EXPENSE,Продукты
+f1622bc1-5391-4470-9b1d-06afbb13987e,INCOME,Стипендия
+0bf35287-d6aa-4cba-a317-b8b126d3738f,EXPENSE,Питомцы
+bac02a2e-3e35-489d-90d2-95392c7e40b1,INCOME,Инвестиции
+a0d25edb-5038-4ead-adfb-ecd16d36aa62,EXPENSE,Коммунальные услуги
+4da9fcb7-eb1a-4795-9294-a8a456577d5e,INCOME,Зарплата
+f6c0866a-059a-472a-befd-23b202a07edf,EXPENSE,Страхование
+c49b59ff-2561-4eb3-9461-350b98452375,INCOME,Фриланс
+715837c2-3ef9-4fb1-b5d5-964de39759f1,EXPENSE,Транспорт
+004bab50-dea5-4406-92b9-39bba8433dd5,EXPENSE,Досуг/Хобби
+9e517d1c-edd2-472b-b81d-41d348ec60fa,EXPENSE,Автомобиль
+f3d20dd0-8b93-4f2c-8c4c-7975f87f54d4,EXPENSE,Кредиты/Ипотека
+5a3ae915-4ee4-454b-9d69-e27319fe7ecb,EXPENSE,Техника
+abea0340-e2a6-4332-9e7a-46fb3dbb1db7,INCOME,Бонусы
+9e05016f-bf30-4f89-9f83-e8fedb7fdba5,EXPENSE,Здоровье
+1fd79baf-0a68-4962-a405-713d37a6d459,INCOME,Пенсия
+19669187-27bb-4bad-a7ff-77505c916a3f,INCOME,Сдача в аренду
+bffe7031-61d1-4500-9eb7-7df512a6ee0c,EXPENSE,Подарки
+7b9590e9-d0bf-4e8c-beeb-70433d344ca5,EXPENSE,Красота/Уход
+c3e675bc-1aef-4c32-8346-edd63c53f1fd,INCOME,Кэшбэк
+cbf7d3b6-20a8-4928-bbc5-8b56ef42912d,EXPENSE,Связь/Интернет
+e52e9fad-f808-43e6-a8ae-5fd75cc27ea8,INCOME,Проценты по вкладу
+e1c15ab0-233e-4926-a926-aca4e2063113,EXPENSE,Одежда
