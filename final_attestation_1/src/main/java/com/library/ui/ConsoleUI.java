@@ -5,6 +5,7 @@ import com.library.model.Reader;
 import com.library.service.*;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleUI {
@@ -13,7 +14,7 @@ public class ConsoleUI {
     private final ReaderService readerService;
     private final LoanService loanService;
     private final StatisticsService statisticsService;
-    
+
     public ConsoleUI() {
         this.scanner = new Scanner(System.in);
         this.bookService = new BookService();
@@ -21,12 +22,12 @@ public class ConsoleUI {
         this.loanService = new LoanService();
         this.statisticsService = new StatisticsService();
     }
-    
+
     public void start() {
         while (true) {
             printMainMenu();
             String choice = scanner.nextLine();
-            
+
             try {
                 switch (choice) {
                     case "1":
@@ -56,7 +57,7 @@ public class ConsoleUI {
             }
         }
     }
-    
+
     private void printMainMenu() {
         System.out.println("\n=== БИБЛИОТЕЧНАЯ СИСТЕМА ===");
         System.out.println("1. Работа с книгами");
@@ -66,7 +67,7 @@ public class ConsoleUI {
         System.out.println("0. Выход");
         System.out.print("Выберите пункт меню: ");
     }
-    
+
     private void bookMenu() throws SQLException {
         while (true) {
             System.out.println("\n=== РАБОТА С КНИГАМИ ===");
@@ -75,9 +76,9 @@ public class ConsoleUI {
             System.out.println("3. Найти книгу по названию");
             System.out.println("0. Назад");
             System.out.print("Выберите пункт меню: ");
-            
+
             String choice = scanner.nextLine();
-            
+
             switch (choice) {
                 case "1":
                     addBook();
@@ -95,44 +96,45 @@ public class ConsoleUI {
             }
         }
     }
-    
+
     private void addBook() {
         try {
             System.out.println("\n=== ДОБАВЛЕНИЕ КНИГИ ===");
-            
+
             System.out.print("Название: ");
             String title = scanner.nextLine();
-            
+
             System.out.print("Автор: ");
             String author = scanner.nextLine();
-            
+
             System.out.print("ISBN (необязательно): ");
             String isbn = scanner.nextLine();
-            if (isbn.trim().isEmpty()) isbn = null;
-            
+            if (isbn.trim().isEmpty())
+                isbn = null;
+
             System.out.print("Год издания (необязательно): ");
             String yearStr = scanner.nextLine();
             Integer year = yearStr.trim().isEmpty() ? null : Integer.parseInt(yearStr);
-            
+
             System.out.print("Количество экземпляров: ");
             int quantity = Integer.parseInt(scanner.nextLine());
-            
+
             Book book = new Book(title, author, isbn, year, quantity);
             bookService.addBook(book);
-            
+
         } catch (NumberFormatException e) {
             System.out.println("Ошибка: введите корректное число");
         } catch (SQLException e) {
             System.out.println("Ошибка при добавлении книги: " + e.getMessage());
         }
     }
-    
+
     private void searchBook() throws SQLException {
         System.out.print("\nВведите название для поиска: ");
         String title = scanner.nextLine();
         bookService.searchBooks(title);
     }
-    
+
     private void readerMenu() throws SQLException {
         while (true) {
             System.out.println("\n=== РАБОТА С ЧИТАТЕЛЯМИ ===");
@@ -140,9 +142,9 @@ public class ConsoleUI {
             System.out.println("2. Посмотреть список читателей");
             System.out.println("0. Назад");
             System.out.print("Выберите пункт меню: ");
-            
+
             String choice = scanner.nextLine();
-            
+
             switch (choice) {
                 case "1":
                     registerReader();
@@ -157,29 +159,30 @@ public class ConsoleUI {
             }
         }
     }
-    
+
     private void registerReader() {
         try {
             System.out.println("\n=== РЕГИСТРАЦИЯ ЧИТАТЕЛЯ ===");
-            
+
             System.out.print("Имя: ");
             String name = scanner.nextLine();
-            
+
             System.out.print("Email: ");
             String email = scanner.nextLine();
-            
+
             System.out.print("Телефон (необязательно): ");
             String phone = scanner.nextLine();
-            if (phone.trim().isEmpty()) phone = null;
-            
+            if (phone.trim().isEmpty())
+                phone = null;
+
             Reader reader = new Reader(name, email, phone);
             readerService.registerReader(reader);
-            
+
         } catch (SQLException e) {
             System.out.println("Ошибка при регистрации: " + e.getMessage());
         }
     }
-    
+
     private void loanMenu() throws SQLException {
         while (true) {
             System.out.println("\n=== ОПЕРАЦИИ ВЫДАЧИ ===");
@@ -188,9 +191,9 @@ public class ConsoleUI {
             System.out.println("3. Посмотреть книги, выданные читателю");
             System.out.println("0. Назад");
             System.out.print("Выберите пункт меню: ");
-            
+
             String choice = scanner.nextLine();
-            
+
             switch (choice) {
                 case "1":
                     issueBook();
@@ -208,59 +211,59 @@ public class ConsoleUI {
             }
         }
     }
-    
+
     private void issueBook() {
         try {
             System.out.println("\n=== ВЫДАЧА КНИГИ ===");
-            
+
             System.out.print("ID книги: ");
             int bookId = Integer.parseInt(scanner.nextLine());
-            
+
             System.out.print("ID читателя: ");
             int readerId = Integer.parseInt(scanner.nextLine());
-            
+
             System.out.print("Срок выдачи (дней): ");
             int days = Integer.parseInt(scanner.nextLine());
-            
+
             loanService.issueBook(bookId, readerId, days);
-            
+
         } catch (NumberFormatException e) {
             System.out.println("Ошибка: введите корректное число");
         } catch (SQLException e) {
             System.out.println("Ошибка при выдаче книги: " + e.getMessage());
         }
     }
-    
+
     private void returnBook() {
         try {
             System.out.println("\n=== ВОЗВРАТ КНИГИ ===");
-            
+
             System.out.print("ID выдачи: ");
             int loanId = Integer.parseInt(scanner.nextLine());
-            
+
             loanService.returnBook(loanId);
-            
+
         } catch (NumberFormatException e) {
             System.out.println("Ошибка: введите корректное число");
         } catch (SQLException e) {
             System.out.println("Ошибка при возврате книги: " + e.getMessage());
         }
     }
-    
+
     private void showReaderBooks() {
         try {
             System.out.print("\nВведите ID читателя: ");
             int readerId = Integer.parseInt(scanner.nextLine());
-            
+
             loanService.showReaderBooks(readerId);
-            
+
         } catch (NumberFormatException e) {
             System.out.println("Ошибка: введите корректное число");
         } catch (SQLException e) {
             System.out.println("Ошибка при получении списка: " + e.getMessage());
         }
     }
-    
+
     private void statisticsMenu() throws SQLException {
         while (true) {
             System.out.println("\n=== СТАТИСТИКА ===");
@@ -268,9 +271,9 @@ public class ConsoleUI {
             System.out.println("2. Показать список выданных книг");
             System.out.println("0. Назад");
             System.out.print("Выберите пункт меню: ");
-            
+
             String choice = scanner.nextLine();
-            
+
             switch (choice) {
                 case "1":
                     System.out.print("Сколько книг показать? ");

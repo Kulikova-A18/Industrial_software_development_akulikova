@@ -9,26 +9,24 @@ import java.util.regex.Pattern;
 
 public class ReaderService {
     private final ReaderDAO readerDAO;
-    private static final Pattern EMAIL_PATTERN = 
-        Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
-    
+    private static final Pattern EMAIL_PATTERN = Pattern.compile("^[A-Za-z0-9+_.-]+@(.+)$");
+
     public ReaderService() {
         this.readerDAO = new ReaderDAO();
     }
-    
+
     public void registerReader(Reader reader) throws SQLException {
         validateReader(reader);
-        
-        // Check if email already exists
+
         Reader existingReader = readerDAO.getReaderByEmail(reader.getEmail());
         if (existingReader != null) {
             throw new IllegalArgumentException("Читатель с email " + reader.getEmail() + " уже существует");
         }
-        
+
         readerDAO.addReader(reader);
         System.out.println("Читатель успешно зарегистрирован с ID: " + reader.getId());
     }
-    
+
     public void listAllReaders() throws SQLException {
         List<Reader> readers = readerDAO.getAllReaders();
         if (readers.isEmpty()) {
@@ -38,7 +36,7 @@ public class ReaderService {
             readers.forEach(System.out::println);
         }
     }
-    
+
     public Reader getReaderById(int id) throws SQLException {
         Reader reader = readerDAO.getReaderById(id);
         if (reader == null) {
@@ -46,7 +44,7 @@ public class ReaderService {
         }
         return reader;
     }
-    
+
     private void validateReader(Reader reader) {
         if (reader.getName() == null || reader.getName().trim().isEmpty()) {
             throw new IllegalArgumentException("Имя не может быть пустым");

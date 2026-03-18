@@ -15,63 +15,50 @@ public class LoanService {
     private final BookDAO bookDAO;
     private final BookService bookService;
     private final ReaderService readerService;
-    
+
     public LoanService() {
         this.loanDAO = new LoanDAO();
         this.bookDAO = new BookDAO();
         this.bookService = new BookService();
         this.readerService = new ReaderService();
     }
-    
+
     public void issueBook(int bookId, int readerId, int loanDays) throws SQLException {
-        // Check if book exists and available
         Book book = bookService.getBookById(bookId);
         if (book.getQuantity() <= 0) {
             throw new IllegalStateException("Книга \"" + book.getTitle() + "\" недоступна для выдачи");
         }
-        
-        // Check if reader exists and active
+
         Reader reader = readerService.getReaderById(readerId);
         if (!reader.isActive()) {
             throw new IllegalStateException("Читатель \"" + reader.getName() + "\" заблокирован");
         }
-        
-        // Create loan
+
         LocalDateTime dueDate = LocalDateTime.now().plusDays(loanDays);
         Loan loan = new Loan(bookId, readerId, dueDate);
-        
-        // Start transaction
+
         try {
-            // Update book quantity
             bookDAO.updateBookQuantity(bookId, -1);
-            
-            // Create loan record
+
             loanDAO.createLoan(loan);
-            
-            System.out.println("Книга \"" + book.getTitle() + "\" выдана читателю \"" + 
-                             reader.getName() + "\" до " + dueDate.toLocalDate());
+
+            System.out.println("Книга \"" + book.getTitle() + "\" выдана читателю \"" +
+                    reader.getName() + "\" до " + dueDate.toLocalDate());
         } catch (SQLException e) {
-            // Rollback is automatic as we're not using explicit transaction
-            // In production, you'd want to use transaction management
             throw new SQLException("Ошибка при выдаче книги: " + e.getMessage());
         }
     }
-    
+
     public void returnBook(int loanId) throws SQLException {
-        // Get loan details first? We'd need to extend LoanDAO to get loan by id
-        // For simplicity, we'll just update the return date
         loanDAO.returnBook(loanId);
-        
-        // Update book quantity - we'd need the bookId from the loan
-        // This should be done in a transaction
-        
+
         System.out.println("Книга успешно возвращена");
     }
-    
+
     public void showReaderBooks(int readerId) throws SQLException {
         Reader reader = readerService.getReaderById(readerId);
         List<Loan> activeLoans = loanDAO.getActiveLoansByReader(readerId);
-        
+
         if (activeLoans.isEmpty()) {
             System.out.println("У читателя \"" + reader.getName() + "\" нет выданных книг");
         } else {
@@ -79,18 +66,17 @@ public class LoanService {
             for (Loan loan : activeLoans) {
                 Book book = bookService.getBookById(loan.getBookId());
                 System.out.printf("ID выдачи: %d | Книга: %s | Дата выдачи: %s | Срок до: %s\n",
-                    loan.getId(),
-                    book.getTitle(),
-                    loan.getLoanDate().toLocalDate(),
-                    loan.getDueDate().toLocalDate()
-                );
+                        loan.getId(),
+                        book.getTitle(),
+                        loan.getLoanDate().toLocalDate(),
+                        loan.getDueDate().toLocalDate());
             }
         }
     }
-    
+
     public void showAllIssuedBooks() throws SQLException {
         List<Loan> activeLoans = loanDAO.getAllActiveLoans();
-        
+
         if (activeLoans.isEmpty()) {
             System.out.println("Нет выданных книг");
         } else {
@@ -98,17 +84,16 @@ public class LoanService {
             for (Loan loan : activeLoans) {
                 Book book = bookService.getBookById(loan.getBookId());
                 Reader reader = readerService.getReaderById(loan.getReaderId());
-                
+
                 String status = loan.getDueDate().isBefore(LocalDateTime.now()) ? "ПРОСРОЧЕНА" : "Активна";
-                
+
                 System.out.printf("ID выдачи: %d | Книга: %s | Читатель: %s | Выдана: %s | Срок: %s | %s\n",
-                    loan.getId(),
-                    book.getTitle(),
-                    reader.getName(),
-                    loan.getLoanDate().toLocalDate(),
-                    loan.getDueDate().toLocalDate(),
-                    status
-                );
+                        loan.getId(),
+                        book.getTitle(),
+                        reader.getName(),
+                        loan.getLoanDate().toLocalDate(),
+                        loan.getDueDate().toLocalDate(),
+                        status);
             }
         }
     }
