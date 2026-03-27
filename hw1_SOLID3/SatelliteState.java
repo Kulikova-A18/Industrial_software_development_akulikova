@@ -20,4 +20,9 @@ public class SatelliteState {
             isActive = false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "SatelliteState{isActive=" + isActive + "}";
+    }
 }
