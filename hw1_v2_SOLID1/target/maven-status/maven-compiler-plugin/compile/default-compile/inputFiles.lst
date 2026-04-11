@@ -1,0 +1,9 @@
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/dto/MissionRequest.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/service/MissionExecutionService.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/enums/TargetType.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/scheduler/ConfiguredMissionScheduler.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/properties/MissionProperties.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/enums/MissionType.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/config/AppConfig.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/Main.java
+/home/vboxuser/Industrial_software_development_akulikova/hw1_v2_SOLID1/src/main/java/com/example/client/SpaceOperationClient.java

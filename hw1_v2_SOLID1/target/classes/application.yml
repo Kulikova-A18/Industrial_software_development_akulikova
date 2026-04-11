@@ -1,0 +1,15 @@
+server:
+  url: "http://localhost:8080/api"
+
+missions:
+  - targetType: CONSTELLATION
+    constellationName: "Стандартная-1"
+    cron: "0 */1 * * * *"   # каждую минуту для теста
+  - targetType: SINGLE_SATELLITE
+    constellationName: "Стандартная-1"
+    satelliteName: "Стандартная-1-Com-1"
+    cron: "0 */2 * * * *"   # каждые 2 минуты
+  - targetType: CONSTELLATION
+    constellationName: "Демо-1"
+    cron: "0 */3 * * * *"   # каждые 3 минуты
+    
