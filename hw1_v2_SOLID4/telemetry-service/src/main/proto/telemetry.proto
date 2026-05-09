@@ -1,0 +1,25 @@
+// telemetry-service/src/main/proto/telemetry.proto
+syntax = "proto3";
+
+package com.example.telemetry;
+
+option java_package = "com.example.grpc";
+option java_outer_classname = "TelemetryProto";
+
+service TelemetryService {
+    rpc StreamTelemetry (TelemetryRequest) returns (stream TelemetryUpdate);
+}
+
+message TelemetryRequest {
+    string constellationName = 1;
+    repeated string satelliteNames = 2;
+}
+
+message TelemetryUpdate {
+    string satelliteName = 1;
+    string constellationName = 2;
+    double internalTemperature = 3;
+    double externalTemperature = 4;
+    double batteryVoltage = 5;
+    int64 timestamp = 6;
+}
