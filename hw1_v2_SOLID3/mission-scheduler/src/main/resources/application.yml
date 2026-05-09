@@ -1,0 +1,48 @@
+# application.yml
+server:
+  url: "http://localhost:8080/api"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+      base-path: /actuator
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mission_scheduler
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+missions:
+  - targetType: CONSTELLATION
+    constellationName: "Стандартная-1"
+    cron: "0 */1 * * * *"
+  - targetType: SINGLE_SATELLITE
+    constellationName: "Стандартная-1"
+    satelliteName: "Стандартная-1-Com-1"
+    cron: "0 */2 * * * *"
+  - targetType: CONSTELLATION
+    constellationName: "Демо-1"
+    cron: "0 */3 * * * *"
