@@ -1,0 +1,75 @@
+services:
+  db-storing:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: file_storing_db
+      POSTGRES_USER: storing_user
+      POSTGRES_PASSWORD: storing_pass
+    ports:
+      - "5434:5432"
+    volumes:
+      - pgdata_storing:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U storing_user -d file_storing_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  db-analysis:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: file_analysis_db
+      POSTGRES_USER: analysis_user
+      POSTGRES_PASSWORD: analysis_pass
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata_analysis:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U analysis_user -d file_analysis_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  file-storing-service:
+    build: ./file-storing-service
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-storing:5432/file_storing_db
+      SPRING_DATASOURCE_USERNAME: storing_user
+      SPRING_DATASOURCE_PASSWORD: storing_pass
+      ANALYSIS_SERVICE_URL: http://file-analysis-service:8082/api/internal/analyze
+    depends_on:
+      db-storing:
+        condition: service_healthy
+    restart: on-failure
+
+  file-analysis-service:
+    build: ./file-analysis-service
+    ports:
+      - "8082:8082"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db-analysis:5432/file_analysis_db
+      SPRING_DATASOURCE_USERNAME: analysis_user
+      SPRING_DATASOURCE_PASSWORD: analysis_pass
+    depends_on:
+      db-analysis:
+        condition: service_healthy
+    restart: on-failure
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      FILE_STORING_URL: http://file-storing-service:8081
+      FILE_ANALYSIS_URL: http://file-analysis-service:8082
+    depends_on:
+      - file-storing-service
+      - file-analysis-service
+    restart: on-failure
+
+volumes:
+  pgdata_storing:
+  pgdata_analysis:

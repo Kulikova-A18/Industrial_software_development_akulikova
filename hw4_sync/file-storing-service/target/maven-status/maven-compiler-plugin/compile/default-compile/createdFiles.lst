@@ -1,0 +1,8 @@
+com/cosmoscan/filestoring/entity/WorkSubmission$WorkSubmissionBuilder.class
+com/cosmoscan/filestoring/repository/WorkRepository.class
+com/cosmoscan/filestoring/dto/AnalysisRequest$AnalysisRequestBuilder.class
+com/cosmoscan/filestoring/service/WorkService.class
+com/cosmoscan/filestoring/dto/AnalysisRequest.class
+com/cosmoscan/filestoring/entity/WorkSubmission.class
+com/cosmoscan/filestoring/FileStoringServiceApplication.class
+com/cosmoscan/filestoring/controller/WorkController.class

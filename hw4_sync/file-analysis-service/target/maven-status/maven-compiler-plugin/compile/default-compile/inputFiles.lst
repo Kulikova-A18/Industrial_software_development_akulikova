@@ -1,0 +1,9 @@
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/dto/AnalysisRequest.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/repository/AnalysisReportRepository.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/validator/FileFormatValidator.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/FileAnalysisServiceApplication.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/entity/AnalysisReport.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/validator/FileSizeValidator.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/service/AnalysisService.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/enums/ReportStatus.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/src/main/java/com/cosmoscan/fileanalysis/controller/AnalysisController.java

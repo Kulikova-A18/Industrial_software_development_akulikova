@@ -1,0 +1,13 @@
+com/cosmoscan/fileanalysis/validator/FileFormatValidator.class
+com/cosmoscan/fileanalysis/validator/FileSizeValidator$ValidationResult.class
+com/cosmoscan/fileanalysis/dto/AnalysisRequest$AnalysisRequestBuilder.class
+com/cosmoscan/fileanalysis/validator/FileFormatValidator$ValidationResult.class
+com/cosmoscan/fileanalysis/entity/AnalysisReport$AnalysisReportBuilder.class
+com/cosmoscan/fileanalysis/dto/AnalysisRequest.class
+com/cosmoscan/fileanalysis/enums/ReportStatus.class
+com/cosmoscan/fileanalysis/entity/AnalysisReport.class
+com/cosmoscan/fileanalysis/FileAnalysisServiceApplication.class
+com/cosmoscan/fileanalysis/controller/AnalysisController.class
+com/cosmoscan/fileanalysis/validator/FileSizeValidator.class
+com/cosmoscan/fileanalysis/repository/AnalysisReportRepository.class
+com/cosmoscan/fileanalysis/service/AnalysisService.class

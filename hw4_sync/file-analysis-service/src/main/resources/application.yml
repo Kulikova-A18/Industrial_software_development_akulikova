@@ -1,0 +1,20 @@
+server:
+  port: 8082
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5435/file_analysis_db
+    username: analysis_user
+    password: analysis_pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+analysis:
+  allowed-formats: pdf,docx,txt
+  max-file-size: 1048576
+
+logging:
+  level:
+    root: WARN
+    com.cosmoscan: INFO

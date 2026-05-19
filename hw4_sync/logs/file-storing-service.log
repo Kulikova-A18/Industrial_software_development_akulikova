@@ -1,0 +1,25 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.0)
+
+2026-05-19T22:17:33.532+03:00  INFO 226042 --- [           main] c.c.f.FileStoringServiceApplication      : Starting FileStoringServiceApplication v1.0.0 using Java 17.0.18 with PID 226042 (/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/target/file-storing-service-1.0.0.jar started by vboxuser in /home/vboxuser/Industrial_software_development_akulikova/hw4_sync)
+2026-05-19T22:17:33.535+03:00  INFO 226042 --- [           main] c.c.f.FileStoringServiceApplication      : No active profile set, falling back to 1 default profile: "default"
+2026-05-19T22:17:38.950+03:00  WARN 226042 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-19T22:17:39.928+03:00  INFO 226042 --- [           main] c.c.f.FileStoringServiceApplication      : Started FileStoringServiceApplication in 7.217 seconds (process running for 7.958)
+2026-05-19T22:17:57.651+03:00 ERROR 226042 --- [nio-8081-exec-2] c.c.filestoring.service.WorkService      : Analysis service unavailable: I/O error on POST request for "http://localhost:8082/api/internal/analyze": Connection refused
+2026-05-19T22:19:12.690+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@53dc685 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.692+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@1dfc597 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.692+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@6a3d22c7 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.693+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@2c2c6d5f (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.694+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@6ee2998b (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.694+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@11ee0abd (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.695+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@12c6395d (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.695+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@5d4fe8cf (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.696+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@279b1c2c (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.696+03:00  WARN 226042 --- [nio-8081-exec-4] com.zaxxer.hikari.pool.PoolBase          : HikariPool-1 - Failed to validate connection org.postgresql.jdbc.PgConnection@46414180 (This connection has been closed.). Possibly consider using a shorter maxLifetime value.
+2026-05-19T22:19:12.713+03:00 ERROR 226042 --- [nio-8081-exec-4] c.c.filestoring.service.WorkService      : Analysis service unavailable: I/O error on POST request for "http://localhost:8082/api/internal/analyze": Connection refused

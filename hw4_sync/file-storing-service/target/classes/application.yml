@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5434/file_storing_db
+    username: storing_user
+    password: storing_pass
+  jpa:
+    hibernate:
+      ddl-auto: update
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+storage:
+  upload-dir: ./uploads
+
+analysis:
+  service:
+    url: http://localhost:8082/api/internal/analyze
+
+logging:
+  level:
+    root: WARN
+    com.cosmoscan: INFO

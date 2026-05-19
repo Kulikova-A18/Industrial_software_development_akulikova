@@ -1,0 +1,6 @@
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/src/main/java/com/cosmoscan/filestoring/repository/WorkRepository.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/src/main/java/com/cosmoscan/filestoring/entity/WorkSubmission.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/src/main/java/com/cosmoscan/filestoring/FileStoringServiceApplication.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/src/main/java/com/cosmoscan/filestoring/service/WorkService.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/src/main/java/com/cosmoscan/filestoring/controller/WorkController.java
+/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-storing-service/src/main/java/com/cosmoscan/filestoring/dto/AnalysisRequest.java
