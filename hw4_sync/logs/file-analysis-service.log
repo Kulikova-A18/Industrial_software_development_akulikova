@@ -7,8 +7,45 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2026-05-19T22:21:34.626+03:00  INFO 242161 --- [           main] c.c.f.FileAnalysisServiceApplication     : Starting FileAnalysisServiceApplication v1.0.0 using Java 17.0.18 with PID 242161 (/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/target/file-analysis-service-1.0.0.jar started by vboxuser in /home/vboxuser/Industrial_software_development_akulikova/hw4_sync)
-2026-05-19T22:21:34.632+03:00  INFO 242161 --- [           main] c.c.f.FileAnalysisServiceApplication     : No active profile set, falling back to 1 default profile: "default"
-2026-05-19T22:21:37.682+03:00  INFO 242161 --- [           main] c.c.f.validator.FileFormatValidator      : Allowed formats: [txt, pdf, docx]
-2026-05-19T22:21:38.178+03:00  WARN 242161 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2026-05-19T22:21:38.663+03:00  INFO 242161 --- [           main] c.c.f.FileAnalysisServiceApplication     : Started FileAnalysisServiceApplication in 4.495 seconds (process running for 4.956)
+2026-05-21T22:52:55.973+03:00  INFO 155811 --- [           main] c.c.f.FileAnalysisServiceApplication     : Starting FileAnalysisServiceApplication v1.0.0 using Java 17.0.18 with PID 155811 (/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/file-analysis-service/target/file-analysis-service-1.0.0.jar started by vboxuser in /home/vboxuser/Industrial_software_development_akulikova/hw4_sync)
+2026-05-21T22:52:55.976+03:00 DEBUG 155811 --- [           main] c.c.f.FileAnalysisServiceApplication     : Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-05-21T22:52:55.978+03:00  INFO 155811 --- [           main] c.c.f.FileAnalysisServiceApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-05-21T22:52:56.854+03:00  INFO 155811 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-05-21T22:52:56.900+03:00  INFO 155811 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 1 JPA repository interface.
+2026-05-21T22:52:57.356+03:00  INFO 155811 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8082 (http)
+2026-05-21T22:52:57.365+03:00  INFO 155811 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-21T22:52:57.366+03:00  INFO 155811 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-05-21T22:52:57.401+03:00  INFO 155811 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-21T22:52:57.402+03:00  INFO 155811 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1322 ms
+2026-05-21T22:52:57.532+03:00  INFO 155811 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-05-21T22:52:57.580+03:00  INFO 155811 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-05-21T22:52:57.614+03:00  INFO 155811 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-05-21T22:52:57.847+03:00  INFO 155811 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-05-21T22:52:57.875+03:00  INFO 155811 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-21T22:52:58.075+03:00  INFO 155811 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@2b441e56
+2026-05-21T22:52:58.077+03:00  INFO 155811 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-21T22:52:58.106+03:00  WARN 155811 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-05-21T22:52:58.947+03:00  INFO 155811 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-05-21T22:52:59.013+03:00  INFO 155811 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-05-21T22:52:59.021+03:00  INFO 155811 --- [           main] c.c.f.validator.FileFormatValidator      : Allowed formats: [txt, pdf, docx]
+2026-05-21T22:52:59.395+03:00  WARN 155811 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-05-21T22:52:59.685+03:00  WARN 155811 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'
+2026-05-21T22:52:59.686+03:00  INFO 155811 --- [           main] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-05-21T22:52:59.689+03:00  INFO 155811 --- [           m2026-05-21T22:54:36.605+03:00  WARN 134316 --- [nio-8082-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.method.annotation.MethodArgumentTypeMismatchException: Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; Invalid UUID string: 1]
+tionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-05-21T22:52:59.742+03:00 ERROR 155811 --- [           main] o.s.b.d.LoggingFailureAnalysisReporter   : 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 8082 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8082 or configure this application to listen on another port.
+

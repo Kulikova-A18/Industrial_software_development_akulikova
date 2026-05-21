@@ -4,16 +4,21 @@ import com.cosmoscan.ui.service.ApiService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.web.client.RestTemplate;
 
 @Configuration
-@PropertySource("classpath:application.properties")
 public class AppConfig {
-    @Value("${api.gateway.url}") private String gatewayUrl;
-    @Value("${api.timeout}") private int apiTimeout;
-
+    
+    @Value("${api.gateway.url}")
+    private String gatewayUrl;
+    
     @Bean
-    public ApiService apiService() {
-        return new ApiService(gatewayUrl, apiTimeout);
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+    
+    @Bean
+    public ApiService apiService(RestTemplate restTemplate) {
+        return new ApiService(gatewayUrl, restTemplate);
     }
 }

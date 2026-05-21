@@ -13,41 +13,28 @@ public class MainFrame extends JFrame {
     public MainFrame(StudentPanel studentPanel, TeacherPanel teacherPanel) {
         this.studentPanel = studentPanel;
         this.teacherPanel = teacherPanel;
-        
-        // Инициализация в конструкторе вместо @PostConstruct
         init();
     }
     
     private void init() {
-        setTitle("КосмоСкан v1.0");
+        setTitle("КосмоСкан v1.0 - Система проверки работ");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1000, 700);
-        setMinimumSize(new Dimension(800, 600));
+        setSize(1100, 750);
+        setMinimumSize(new Dimension(900, 600));
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout());
         
-        // Создание панели вкладок
-        JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        JTabbedPane tabs = new JTabbedPane();
+        tabs.addTab("📤 Студент", studentPanel);
+        tabs.addTab("📊 Преподаватель", teacherPanel);
         
-        tabbedPane.addTab("Студент", studentPanel);
-        tabbedPane.addTab("Преподаватель", teacherPanel);
+        add(tabs, BorderLayout.CENTER);
         
-        add(tabbedPane, BorderLayout.CENTER);
-        
-        // Статусная строка
+        // Статус бар
         JPanel statusBar = new JPanel(new BorderLayout());
         statusBar.setBorder(BorderFactory.createLoweredBevelBorder());
-        
-        JLabel statusLabel = new JLabel("Готов к работе");
-        statusLabel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-        
-        JLabel versionLabel = new JLabel("v1.0.0");
-        versionLabel.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
-        
+        JLabel statusLabel = new JLabel(" ✅ Готов к работе | API: http://localhost:8080");
+        statusLabel.setBorder(BorderFactory.createEmptyBorder(3, 5, 3, 5));
         statusBar.add(statusLabel, BorderLayout.WEST);
-        statusBar.add(versionLabel, BorderLayout.EAST);
-        
         add(statusBar, BorderLayout.SOUTH);
     }
 }

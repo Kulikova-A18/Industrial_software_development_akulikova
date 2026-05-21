@@ -1,17 +1,13 @@
 package com.cosmoscan.ui.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.client5.http.classic.methods.HttpGet;
-import org.apache.hc.client5.http.classic.methods.HttpPost;
-import org.apache.hc.client5.http.entity.mime.MultipartEntityBuilder;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpClient;
-import org.apache.hc.client5.http.impl.classic.CloseableHttpResponse;
-import org.apache.hc.client5.http.impl.classic.HttpClients;
-import org.apache.hc.core5.http.ContentType;
-import org.apache.hc.core5.http.HttpEntity;
-import org.apache.hc.core5.http.ParseException;
-import org.apache.hc.core5.http.io.entity.EntityUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,109 +16,64 @@ import java.io.IOException;
 public class ApiService {
     
     private final String gatewayUrl;
-    private final CloseableHttpClient httpClient;
+    private final RestTemplate restTemplate;
     private final ObjectMapper mapper;
     
-    public ApiService(String gatewayUrl, int timeout) {
+    public ApiService(String gatewayUrl, RestTemplate restTemplate) {
         this.gatewayUrl = gatewayUrl;
-        this.httpClient = HttpClients.createDefault();
+        this.restTemplate = restTemplate;
         this.mapper = new ObjectMapper();
+        this.mapper.registerModule(new JavaTimeModule());
+        log.info("API Gateway URL: {}", gatewayUrl);
     }
     
-    /**
-     * Загрузка работы на сервер
-     */
     public String uploadWork(String studentName, File file) throws IOException {
         String url = gatewayUrl + "/api/works";
         
-        HttpPost post = new HttpPost(url);
+        MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+        body.add("studentName", studentName);
+        body.add("file", new FileSystemResource(file));
         
-        MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-        builder.addTextBody("studentName", studentName, ContentType.TEXT_PLAIN);
-        builder.addBinaryBody("file", file, ContentType.APPLICATION_OCTET_STREAM, file.getName());
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
         
-        HttpEntity multipart = builder.build();
-        post.setEntity(multipart);
+        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         
         log.debug("Отправка работы: studentName={}, file={}", studentName, file.getName());
         
-        return executePostRequest(post);
+        ResponseEntity<String> response = restTemplate.exchange(
+            url, HttpMethod.POST, requestEntity, String.class
+        );
+        
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        }
+        throw new IOException("Ошибка сервера: " + response.getStatusCode());
     }
     
-    /**
-     * Получение отчёта по ID работы
-     */
-    public String getReport(String workId) throws IOException {
+    public String getReports(String workId) throws IOException {
         String url = gatewayUrl + "/api/reports/" + workId;
-        HttpGet get = new HttpGet(url);
-        log.debug("Получение отчёта для работы: {}", workId);
-        return executeGetRequest(get);
-    }
-    
-    /**
-     * Получение последнего отчёта
-     */
-    public String getLatestReport(String workId) throws IOException {
-        String url = gatewayUrl + "/api/reports/" + workId + "/latest";
-        HttpGet get = new HttpGet(url);
-        log.debug("Получение последнего отчёта для работы: {}", workId);
-        return executeGetRequest(get);
-    }
-    
-    /**
-     * Проверка здоровья системы
-     */
-    public String healthCheck() throws IOException {
-        String url = gatewayUrl + "/health-check";
-        HttpGet get = new HttpGet(url);
-        return executeGetRequest(get);
-    }
-    
-    /**
-     * Выполнение POST запроса
-     */
-    private String executePostRequest(HttpPost request) throws IOException {
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            return handleResponse(response);
-        }
-    }
-    
-    /**
-     * Выполнение GET запроса
-     */
-    private String executeGetRequest(HttpGet request) throws IOException {
-        try (CloseableHttpResponse response = httpClient.execute(request)) {
-            return handleResponse(response);
-        }
-    }
-    
-    /**
-     * Обработка HTTP ответа
-     */
-    private String handleResponse(CloseableHttpResponse response) throws IOException {
-        HttpEntity entity = response.getEntity();
         
         try {
-            String result = EntityUtils.toString(entity);
-            
-            int statusCode = response.getCode();
-            
-            if (statusCode == 404) {
-                throw new IOException("Ресурс не найден (404)");
+            ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+            if (response.getStatusCode().is2xxSuccessful()) {
+                return response.getBody();
             }
-            
-            if (statusCode >= 500) {
-                throw new IOException("Ошибка сервера: " + statusCode + " - " + result);
+            if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
+                return "[]";
             }
-            
-            if (statusCode >= 400) {
-                throw new IOException("Ошибка запроса: " + statusCode + " - " + result);
+            throw new IOException("Ошибка: " + response.getStatusCode());
+        } catch (Exception e) {
+            if (e.getMessage().contains("404")) {
+                return "[]";
             }
-            
-            return result;
-            
-        } catch (ParseException e) {
-            throw new IOException("Ошибка парсинга ответа: " + e.getMessage(), e);
+            throw new IOException(e.getMessage(), e);
         }
+    }
+    
+    public String healthCheck() throws IOException {
+        String url = gatewayUrl + "/health-check";
+        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        return response.getBody();
     }
 }

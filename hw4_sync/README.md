@@ -1,88 +1,51 @@
-# КосмоСкан (CosmoScan)
+# Запускаем PostgreSQL контейнеры
+cd ~/Industrial_software_development_akulikova/hw4_sync
 
-Информационная система для приёма и автоматической проверки студенческих работ.
+# Запускаем только базы данных
+sudo docker compose up -d db-storing db-analysis
 
-## Архитектура
+# Ждем готовности БД
+echo "Ожидание готовности PostgreSQL..."
+sleep 10
 
-### Микросервисы
-- **API Gateway** (порт 8080) - единая точка входа, маршрутизация запросов
-- **File Storing Service** (порт 8081) - хранение файлов и метаданных
-- **File Analysis Service** (порт 8082) - автоматическая проверка файлов
-- **CosmoScan UI** - клиентское Swing-приложение
+# Проверяем статус
+sudo docker compose ps
 
-### Базы данных
-- `file_storing_db` (PostgreSQL, порт 5432)
-- `file_analysis_db` (PostgreSQL, порт 5433)
+# Теперь запускаем сервисы
+pkill -f "file-storing-service" 2>/dev/null
+pkill -f "file-analysis-service" 2>/dev/null
+pkill -f "api-gateway" 2>/dev/null
 
-## Требования
-- Java 17+
-- Docker и Docker Compose
-- Maven 3.8+
-- Linux (протестировано на Ubuntu 22.04)
+# Запускаем File Storing Service (без H2, с PostgreSQL)
+echo "Запуск File Storing Service..."
+java -jar file-storing-service/target/file-storing-service-1.0.0.jar > logs/file-storing-service.log 2>&1 &
+echo $! > pids/file-storing-service.pid
+sleep 10
 
-## Быстрый запуск
+# Запускаем File Analysis Service
+echo "Запуск File Analysis Service..."
+java -jar file-analysis-service/target/file-analysis-service-1.0.0.jar > logs/file-analysis-service.log 2>&1 &
+echo $! > pids/file-analysis-service.pid
+sleep 10
 
-### 1. Сборка проекта
-```bash
-chmod +x create-cosmoscan-project.sh
-./create-cosmoscan-project.sh
-cd cosmoscan
-```
+# Запускаем API Gateway
+echo "Запуск API Gateway..."
+java -jar api-gateway/target/api-gateway-1.0.0.jar > logs/api-gateway.log 2>&1 &
+echo $! > pids/api-gateway.pid
+sleep 10
 
-### 2. Сборка каждого сервиса
-```bash
-cd api-gateway && mvn clean package -DskipTests && cd ..
-cd file-storing-service && mvn clean package -DskipTests && cd ..
-cd file-analysis-service && mvn clean package -DskipTests && cd ..
-cd cosmoscan-ui && mvn clean package -DskipTests && cd ..
-```
+# Проверяем статус
+echo ""
+echo "=== Проверка статуса ==="
+curl -s http://localhost:8081/api/works/health && echo " ✓ File Storing OK" || echo " ✗ File Storing FAILED"
+curl -s http://localhost:8082/api/internal/health && echo " ✓ File Analysis OK" || echo " ✗ File Analysis FAILED"
+curl -s http://localhost:8080/health-check && echo " ✓ API Gateway OK" || echo " ✗ API Gateway FAILED"
 
-### 3. Запуск через Docker Compose
-```bash
-docker-compose up --build
-```
 
-### 4. Запуск UI (отдельно)
-```bash
-java -jar cosmoscan-ui/target/cosmoscan-ui-1.0.0.jar
-```
+cd ~/Industrial_software_development_akulikova/hw4_sync/cosmoscan-ui
 
-## API Endpoints
+# Сборка
+mvn clean package -DskipTests
 
-| Метод | URL | Описание |
-|-------|-----|----------|
-| POST | /api/works | Загрузка работы (multipart) |
-| GET | /api/works/{id}/file | Скачивание файла |
-| GET | /api/reports/{workId} | Получение отчётов |
-| GET | /health-check | Проверка здоровья |
-
-## Тестирование
-
-### Загрузка валидного PDF
-```bash
-curl -X POST http://localhost:8080/api/works \
-  -F "studentName=Иванов Иван" \
-  -F "file=@test.pdf"
-```
-
-### Получение отчёта
-```bash
-curl http://localhost:8080/api/reports/{workId}
-```
-
-### Тест отказоустойчивости
-```bash
-docker-compose stop file-analysis-service
-# Отправить файл - должно вернуться предупреждение
-```
-
-## Структура проекта
-```
-cosmoscan/
-├── api-gateway/
-├── file-storing-service/
-├── file-analysis-service/
-├── cosmoscan-ui/
-├── docker-compose.yml
-└── README.md
-```
+# Запуск
+java -jar target/cosmoscan-ui-1.0.0.jar

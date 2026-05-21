@@ -1,12 +1,12 @@
 package com.cosmoscan.ui.ui;
 
 import com.cosmoscan.ui.service.ApiService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.TitledBorder;
+import javax.swing.border.*;
 import java.awt.*;
 import java.io.File;
 import java.util.Map;
@@ -16,6 +16,8 @@ import java.util.Map;
 public class StudentPanel extends JPanel {
     
     private final ApiService apiService;
+    private final ObjectMapper mapper = new ObjectMapper();
+    
     private JTextField nameField;
     private JTextField fileField;
     private JButton chooseBtn;
@@ -30,154 +32,141 @@ public class StudentPanel extends JPanel {
     
     private void initComponents() {
         setBorder(new EmptyBorder(10, 10, 10, 10));
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
         
-        // Верхняя панель с формой
-        JPanel topPanel = new JPanel(new GridBagLayout());
-        topPanel.setBorder(new TitledBorder("Загрузка работы"));
+        // Форма
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBorder(new TitledBorder("Загрузка работы"));
         
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // ФИО
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 0.1;
-        topPanel.add(new JLabel("ФИО студента:"), gbc);
-        
-        gbc.gridx = 1;
-        gbc.weightx = 0.9;
+        gbc.gridx = 0; gbc.gridy = 0;
+        formPanel.add(new JLabel("ФИО студента:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 1.0;
         nameField = new JTextField(30);
-        nameField.setToolTipText("Введите фамилию, имя и отчество студента");
-        topPanel.add(nameField, gbc);
+        formPanel.add(nameField, gbc);
         
-        // Файл
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 0.1;
-        topPanel.add(new JLabel("Файл работы:"), gbc);
-        
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0;
+        formPanel.add(new JLabel("Файл:"), gbc);
+        gbc.gridx = 1;
         JPanel filePanel = new JPanel(new BorderLayout(5, 0));
-        fileField = new JTextField(20);
+        fileField = new JTextField();
         fileField.setEditable(false);
         filePanel.add(fileField, BorderLayout.CENTER);
-        
-        chooseBtn = new JButton("Выбрать файл");
+        chooseBtn = new JButton("Выбрать");
         chooseBtn.addActionListener(e -> chooseFile());
         filePanel.add(chooseBtn, BorderLayout.EAST);
+        formPanel.add(filePanel, gbc);
         
-        gbc.gridx = 1;
-        gbc.weightx = 0.9;
-        topPanel.add(filePanel, gbc);
-        
-        // Кнопки
-        gbc.gridx = 1;
-        gbc.gridy = 2;
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        
-        submitBtn = new JButton("Отправить работу");
+        gbc.gridx = 1; gbc.gridy = 2;
+        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        submitBtn = new JButton("Отправить");
         submitBtn.setEnabled(false);
         submitBtn.addActionListener(e -> submitWork());
-        buttonPanel.add(submitBtn);
-        
+        btnPanel.add(submitBtn);
         JButton clearBtn = new JButton("Очистить");
         clearBtn.addActionListener(e -> clearForm());
-        buttonPanel.add(clearBtn);
+        btnPanel.add(clearBtn);
+        formPanel.add(btnPanel, gbc);
         
-        topPanel.add(buttonPanel, gbc);
+        add(formPanel, BorderLayout.NORTH);
         
-        add(topPanel, BorderLayout.NORTH);
-        
-        // Информационная панель
+        // Инфо панель
         JPanel infoPanel = new JPanel(new BorderLayout());
-        infoPanel.setBorder(new TitledBorder("Требования к файлу"));
-        
-        JTextArea reqText = new JTextArea(
-                "• Допустимые форматы: PDF, DOCX, TXT\n" +
-                "• Архивы (ZIP, RAR и др.) не принимаются\n" +
-                "• Максимальный размер файла: 1 МБ\n" +
-                "• Имя файла должно содержать расширение"
+        infoPanel.setBorder(new TitledBorder("Требования"));
+        JTextArea info = new JTextArea(
+            "✓ Форматы: PDF, DOCX, TXT\n" +
+            "✓ Максимальный размер: 1 МБ\n" +
+            "✗ Архивы не принимаются"
         );
-        reqText.setEditable(false);
-        reqText.setFont(new Font("Segoe UI", Font.PLAIN, 12));
-        reqText.setBackground(getBackground());
-        
-        infoPanel.add(reqText, BorderLayout.CENTER);
+        info.setEditable(false);
+        info.setBackground(null);
+        infoPanel.add(info, BorderLayout.CENTER);
         add(infoPanel, BorderLayout.CENTER);
         
         // Лог
-        JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBorder(new TitledBorder("Лог операций"));
-        
+        JPanel logPanel = new JPanel(new BorderLayout());
+        logPanel.setBorder(new TitledBorder("Лог"));
         logArea = new JTextArea(8, 40);
         logArea.setEditable(false);
-        logArea.setFont(new Font("Consolas", Font.PLAIN, 12));
-        
-        JScrollPane scrollPane = new JScrollPane(logArea);
-        bottomPanel.add(scrollPane, BorderLayout.CENTER);
-        
-        add(bottomPanel, BorderLayout.SOUTH);
+        logArea.setFont(new Font("Monospaced", Font.PLAIN, 11));
+        logPanel.add(new JScrollPane(logArea), BorderLayout.CENTER);
+        add(logPanel, BorderLayout.SOUTH);
     }
     
     private void chooseFile() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Выберите файл работы");
-        
-        if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-            selectedFile = fileChooser.getSelectedFile();
-            fileField.setText(selectedFile.getAbsolutePath());
+        JFileChooser chooser = new JFileChooser();
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            selectedFile = chooser.getSelectedFile();
+            fileField.setText(selectedFile.getName());
             submitBtn.setEnabled(true);
             logMessage("Выбран файл: " + selectedFile.getName() + 
-                       " (" + (selectedFile.length() / 1024) + " КБ)");
+                       " (" + (selectedFile.length() / 1024) + " KB)");
         }
     }
     
     private void submitWork() {
         if (nameField.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Введите ФИО студента", 
-                                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Введите ФИО студента", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
         if (selectedFile == null) {
-            JOptionPane.showMessageDialog(this, "Выберите файл", 
-                                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Выберите файл", "Ошибка", JOptionPane.ERROR_MESSAGE);
             return;
         }
         
-        submitBtn.setEnabled(false);
-        chooseBtn.setEnabled(false);
-        submitBtn.setText("Отправка...");
+        setLoading(true);
         
-        new SwingWorker<Void, String>() {
+        new SwingWorker<String, String>() {
             @Override
-            protected Void doInBackground() throws Exception {
-                try {
-                    String response = apiService.uploadWork(nameField.getText().trim(), selectedFile);
-                    publish("✓ Работа успешно отправлена");
-                    publish("Ответ сервера: " + response);
-                    
-                    SwingUtilities.invokeLater(() -> clearForm());
-                    
-                } catch (Exception e) {
-                    publish("✗ Ошибка: " + e.getMessage());
-                }
-                return null;
+            protected String doInBackground() throws Exception {
+                return apiService.uploadWork(nameField.getText().trim(), selectedFile);
             }
             
             @Override
             protected void process(java.util.List<String> chunks) {
-                chunks.forEach(msg -> logMessage(msg));
+                chunks.forEach(StudentPanel.this::logMessage);
             }
             
             @Override
             protected void done() {
-                submitBtn.setEnabled(true);
-                chooseBtn.setEnabled(true);
-                submitBtn.setText("Отправить работу");
+                setLoading(false);
+                try {
+                    String response = get();
+                    logMessage("✓ Успешно отправлено!");
+                    logMessage("Ответ: " + response);
+                    
+                    // Парсим workId
+                    try {
+                        Map<?, ?> map = mapper.readValue(response, Map.class);
+                        Object workId = map.get("workId");
+                        if (workId != null) {
+                            logMessage("📌 ID работы: " + workId);
+                            JOptionPane.showMessageDialog(StudentPanel.this,
+                                "Работа успешно отправлена!\n\nID работы: " + workId +
+                                "\nСохраните этот ID для проверки отчёта.",
+                                "Успех", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } catch (Exception e) {
+                        logMessage("Ответ сервера: " + response);
+                    }
+                    clearForm();
+                } catch (Exception e) {
+                    logMessage("✗ Ошибка: " + e.getMessage());
+                    JOptionPane.showMessageDialog(StudentPanel.this,
+                        "Ошибка при отправке:\n" + e.getMessage(),
+                        "Ошибка", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }.execute();
+    }
+    
+    private void setLoading(boolean loading) {
+        submitBtn.setEnabled(!loading);
+        chooseBtn.setEnabled(!loading);
+        submitBtn.setText(loading ? "Отправка..." : "Отправить");
     }
     
     private void clearForm() {
@@ -187,9 +176,9 @@ public class StudentPanel extends JPanel {
         submitBtn.setEnabled(false);
     }
     
-    private void logMessage(String message) {
+    private void logMessage(String msg) {
         String time = java.time.LocalTime.now().toString().substring(0, 8);
-        logArea.append("[" + time + "] " + message + "\n");
+        logArea.append("[" + time + "] " + msg + "\n");
         logArea.setCaretPosition(logArea.getDocument().getLength());
     }
 }

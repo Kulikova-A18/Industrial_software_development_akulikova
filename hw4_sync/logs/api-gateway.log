@@ -7,6 +7,6 @@
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2026-05-19T22:17:43.757+03:00  INFO 231345 --- [api-gateway] [           main] c.c.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication v1.0.0 using Java 17.0.18 with PID 231345 (/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/api-gateway/target/api-gateway-1.0.0.jar started by vboxuser in /home/vboxuser/Industrial_software_development_akulikova/hw4_sync)
-2026-05-19T22:17:43.765+03:00  INFO 231345 --- [api-gateway] [           main] c.c.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
-2026-05-19T22:17:47.428+03:00  INFO 231345 --- [api-gateway] [           main] c.c.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 4.571 seconds (process running for 5.436)
+2026-05-21T22:53:01.134+03:00  INFO 156058 --- [api-gateway] [           main] c.c.apigateway.ApiGatewayApplication     : Starting ApiGatewayApplication v1.0.0 using Java 17.0.18 with PID 156058 (/home/vboxuser/Industrial_software_development_akulikova/hw4_sync/api-gateway/target/api-gateway-1.0.0.jar started by vboxuser in /home/vboxuser/Industrial_software_development_akulikova/hw4_sync)
+2026-05-21T22:53:01.138+03:00  INFO 156058 --- [api-gateway] [           main] c.c.apigateway.ApiGatewayApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-05-21T22:53:04.242+03:00  INFO 156058 --- [api-gateway] [           main] c.c.apigateway.ApiGatewayApplication     : Started ApiGatewayApplication in 3.648 seconds (process running for 4.156)
