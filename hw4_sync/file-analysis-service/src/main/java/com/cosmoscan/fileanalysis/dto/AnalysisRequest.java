@@ -7,6 +7,7 @@ import java.util.UUID;
 /**
  * Data Transfer Object representing a request to analyze a submitted student work
  */
+
 @Data
 @Builder
 @NoArgsConstructor
