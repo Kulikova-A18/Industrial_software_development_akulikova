@@ -204,7 +204,7 @@ public class TeacherPanel extends JPanel {
         sb.append("═══════════════════════════════════════════════════════════\n\n");
         
         sb.append("ОСНОВНАЯ ИНФОРМАЦИЯ\n");
-        sb.append("───────────────────────────────────────────────────────────\n");
+        
         sb.append("  ID отчёта:     ").append(report.getReportId()).append("\n");
         sb.append("  ID работы:     ").append(report.getWorkId()).append("\n");
         sb.append("  Статус:        ").append(formatStatus(report.getStatus())).append("\n");
@@ -212,27 +212,27 @@ public class TeacherPanel extends JPanel {
             report.getCreatedAt().format(dateFormatter) : "N/A").append("\n\n");
         
         sb.append("ИНФОРМАЦИЯ О ФАЙЛЕ\n");
-        sb.append("───────────────────────────────────────────────────────────\n");
+        
         sb.append("  Имя файла:     ").append(report.getFileName() != null ? report.getFileName() : "N/A").append("\n");
         sb.append("  Размер:        ").append(report.getFileSizeFormatted()).append("\n");
         sb.append("  Формат:        ").append(report.getFileFormat() != null ? 
             report.getFileFormat().toUpperCase() : "N/A").append("\n\n");
         
         sb.append("РЕЗУЛЬТАТЫ ПРОВЕРКИ\n");
-        sb.append("───────────────────────────────────────────────────────────\n");
+        
         sb.append("  Формат валиден: ").append(report.getIsValidFormat() != null && report.getIsValidFormat() ? 
-            "✓ Да" : "Нет").append("\n");
+            "Да" : "Нет").append("\n");
         sb.append("  Размер валиден: ").append(report.getIsValidSize() != null && report.getIsValidSize() ? 
-            "✓ Да" : "Нет").append("\n");
+            "Да" : "Нет").append("\n");
         sb.append("  Длительность:   ").append(report.getAnalysisDurationMs() != null ? 
             report.getAnalysisDurationMs() + " мс" : "N/A").append("\n\n");
         
         sb.append("КОММЕНТАРИЙ\n");
-        sb.append("───────────────────────────────────────────────────────────\n");
+        
         sb.append("  ").append(report.getComment() != null ? report.getComment() : "Нет комментария").append("\n\n");
         
         sb.append("ЗАМЕЧАНИЯ\n");
-        sb.append("───────────────────────────────────────────────────────────\n");
+        
         sb.append("  ").append(report.getIssues() != null ? report.getIssues() : "Нет замечаний").append("\n");
         
         detailsArea.setText(sb.toString());
@@ -242,7 +242,7 @@ public class TeacherPanel extends JPanel {
     private String formatStatus(String status) {
         if (status == null) return "Неизвестно";
         switch (status.toUpperCase()) {
-            case "ACCEPTED": return "✓ Принято";
+            case "ACCEPTED": return "Принято";
             case "NEEDS_REWORK": return "⚠ Требуется доработка";
             case "ERROR": return "Ошибка";
             case "PENDING": return "⏳ Ожидает";
