@@ -13,6 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * REST controller for handling student work submissions and file retrieval
+ */
 @RestController
 @RequestMapping("/api/works")
 @Slf4j
@@ -21,10 +24,21 @@ public class WorkController {
     
     private final WorkService workService;
     
+    /**
+     * @param workService service layer for handling work storage and retrieval logic
+     */
     public WorkController(WorkService workService) {
         this.workService = workService;
     }
     
+    /**
+     * Submits a new student work with a file attachment.
+     *
+     * @param studentName the name of the student submitting the work, must not be blank
+     * @param file        the uploaded file containing the student's work, must not be empty
+     * @return ResponseEntity with HTTP 201 and work details on success,
+     *         HTTP 400 if validation fails, HTTP 500 if storage error occurs
+     */
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<?> submitWork(
             @RequestParam("studentName") String studentName,
@@ -60,6 +74,13 @@ public class WorkController {
         }
     }
     
+    /**
+     * Downloads the stored file for a given work submission.
+     *
+     * @param workId UUID of the work submission to retrieve the file for
+     * @return ResponseEntity with file content as octet-stream attachment on success,
+     *         HTTP 404 if work is not found
+     */
     @GetMapping("/{workId}/file")
     public ResponseEntity<?> getFile(@PathVariable UUID workId) {
         return workService.getFile(workId)
@@ -71,6 +92,11 @@ public class WorkController {
                 .orElse(ResponseEntity.notFound().build());
     }
     
+    /**
+     * Health check endpoint for monitoring the File Storing Service availability.
+     *
+     * @return ResponseEntity with service status and name
+     */
     @GetMapping("/health")
     public ResponseEntity<?> health() {
         return ResponseEntity.ok(Map.of(

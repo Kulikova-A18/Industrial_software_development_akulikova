@@ -13,9 +13,9 @@
     </parent>
     
     <groupId>com.cosmoscan</groupId>
-    <artifactId>cosmoscan-ui</artifactId>
+    <artifactId>gui</artifactId>
     <version>1.0.0</version>
-    <name>cosmoscan-ui</name>
+    <name>gui</name>
     
     <properties>
         <java.version>17</java.version>

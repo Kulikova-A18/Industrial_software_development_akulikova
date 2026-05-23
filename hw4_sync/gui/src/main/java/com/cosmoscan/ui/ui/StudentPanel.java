@@ -77,9 +77,9 @@ public class StudentPanel extends JPanel {
         JPanel infoPanel = new JPanel(new BorderLayout());
         infoPanel.setBorder(new TitledBorder("Требования"));
         JTextArea info = new JTextArea(
-            "✓ Форматы: PDF, DOCX, TXT\n" +
-            "✓ Максимальный размер: 1 МБ\n" +
-            "✗ Архивы не принимаются"
+            "[YES] Форматы: PDF, DOCX, TXT\n" +
+            "[YES] Максимальный размер: 1 МБ\n" +
+            "[NO] Архивы не принимаются"
         );
         info.setEditable(false);
         info.setBackground(null);
@@ -135,7 +135,7 @@ public class StudentPanel extends JPanel {
                 setLoading(false);
                 try {
                     String response = get();
-                    logMessage("✓ Успешно отправлено!");
+                    logMessage("Успешно отправлено!");
                     logMessage("Ответ: " + response);
                     
                     // Парсим workId
@@ -143,7 +143,7 @@ public class StudentPanel extends JPanel {
                         Map<?, ?> map = mapper.readValue(response, Map.class);
                         Object workId = map.get("workId");
                         if (workId != null) {
-                            logMessage("📌 ID работы: " + workId);
+                            logMessage("ID работы: " + workId);
                             JOptionPane.showMessageDialog(StudentPanel.this,
                                 "Работа успешно отправлена!\n\nID работы: " + workId +
                                 "\nСохраните этот ID для проверки отчёта.",
@@ -154,7 +154,7 @@ public class StudentPanel extends JPanel {
                     }
                     clearForm();
                 } catch (Exception e) {
-                    logMessage("✗ Ошибка: " + e.getMessage());
+                    logMessage("Ошибка: " + e.getMessage());
                     JOptionPane.showMessageDialog(StudentPanel.this,
                         "Ошибка при отправке:\n" + e.getMessage(),
                         "Ошибка", JOptionPane.ERROR_MESSAGE);

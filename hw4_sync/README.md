@@ -42,10 +42,10 @@ curl -s http://localhost:8082/api/internal/health && echo " ✓ File Analysis OK
 curl -s http://localhost:8080/health-check && echo " ✓ API Gateway OK" || echo " ✗ API Gateway FAILED"
 
 
-cd ~/Industrial_software_development_akulikova/hw4_sync/cosmoscan-ui
+cd ~/Industrial_software_development_akulikova/hw4_sync/gui
 
 # Сборка
 mvn clean package -DskipTests
 
 # Запуск
-java -jar target/cosmoscan-ui-1.0.0.jar
+java -jar target/gui-1.0.0.jar
