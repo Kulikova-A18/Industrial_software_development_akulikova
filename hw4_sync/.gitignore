@@ -1,0 +1,99 @@
+# ============================================
+# Compiled files and build output
+# ============================================
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ============================================
+# IDE files
+# ============================================
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.springBeans
+
+# Eclipse
+bin/
+.metadata/
+
+# NetBeans
+nbproject/
+nbbuild/
+dist/
+
+# ============================================
+# Logs
+# ============================================
+logs/
+*.log
+
+# ============================================
+# Runtime files
+# ============================================
+pids/
+*.pid
+
+# ============================================
+# Uploaded files and storage
+# ============================================
+uploads/
+
+# ============================================
+# OS generated files
+# ============================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ============================================
+# Maven
+# ============================================
+.mvn/
+mvnw
+mvnw.cmd
+
+# ============================================
+# Environment and secrets
+# ============================================
+.env
+.env.local
+*.env
+application-local.yml
+application-local.properties
+application-dev.yml
+application-dev.properties
+
+# ============================================
+# Docker
+# ============================================
+docker-compose.override.yml
+
+# ============================================
+# Temporary files
+# ============================================
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+~*
+
+# ============================================
+# Java specific
+# ============================================
+hs_err_pid*
+replay_pid*
