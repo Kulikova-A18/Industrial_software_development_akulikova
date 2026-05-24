@@ -11,13 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
+/**
+ * Service class handling the business logic for file analysis operations.
+ * Validates uploaded files against format and size requirements, generates reports,
+ * and persists analysis results to the database.
+ */
 @Service
 @Slf4j
 public class AnalysisService {
+    
     private final AnalysisReportRepository repository;
     private final FileFormatValidator formatValidator;
     private final FileSizeValidator sizeValidator;
 
+    /**
+     * @param repository      repository for persisting analysis report entities
+     * @param formatValidator validator for checking file format requirements
+     * @param sizeValidator   validator for checking file size requirements
+     */
     public AnalysisService(AnalysisReportRepository repository,
                            FileFormatValidator formatValidator,
                            FileSizeValidator sizeValidator) {
@@ -26,6 +37,13 @@ public class AnalysisService {
         this.sizeValidator = sizeValidator;
     }
 
+    /**
+     * Performs analysis on a submitted student work by validating file format and size.
+     * Generates a report with the validation results and persists it to the database.
+     *
+     * @param request DTO containing the work details to analyze (workId, filePath, fileName, fileSize)
+     * @return the saved {@link AnalysisReport} entity with validation results and status
+     */
     @Transactional
     public AnalysisReport analyze(AnalysisRequest request) {
         long start = System.currentTimeMillis();
@@ -60,6 +78,12 @@ public class AnalysisService {
         return repository.save(report);
     }
 
+    /**
+     * Retrieves all analysis reports associated with a specific work submission.
+     *
+     * @param workId UUID of the work submission to fetch reports for
+     * @return list of {@link AnalysisReport} entities for the given work, empty list if none found
+     */
     public List<AnalysisReport> getReportsByWorkId(UUID workId) {
         return repository.findByWorkId(workId);
     }

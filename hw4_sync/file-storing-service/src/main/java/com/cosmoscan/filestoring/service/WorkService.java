@@ -17,14 +17,24 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Service class handling business logic for storing student works, 
+ * communicating with the analysis service, and retrieving stored files.
+ */
 @Service
 @Slf4j
 public class WorkService {
+    
     private final WorkRepository workRepository;
     private final RestTemplate restTemplate;
     private final String uploadDir;
     private final String analysisServiceUrl;
 
+    /**
+     * @param workRepository      repository for persisting work submission entities
+     * @param uploadDir           file system directory where uploaded files will be stored
+     * @param analysisServiceUrl  base URL of the file analysis microservice
+     */
     public WorkService(WorkRepository workRepository,
                        @Value("${storage.upload-dir}") String uploadDir,
                        @Value("${analysis.service.url}") String analysisServiceUrl) {
@@ -34,6 +44,16 @@ public class WorkService {
         this.restTemplate = new RestTemplate();
     }
 
+    /**
+     * Stores a student work submission, saves the uploaded file to disk,
+     * persists metadata to the database, and sends an analysis request
+     * to the file analysis service.
+     *
+     * @param studentName name of the student submitting the work
+     * @param file        the uploaded multipart file containing student's work
+     * @return the saved {@link WorkSubmission} entity with updated analysis status
+     * @throws IOException if file storage operations fail
+     */
     public WorkSubmission storeWork(String studentName, MultipartFile file) throws IOException {
         Path uploadPath = Paths.get(uploadDir);
         if (!Files.exists(uploadPath)) Files.createDirectories(uploadPath);
@@ -71,6 +91,12 @@ public class WorkService {
         return work;
     }
 
+    /**
+     * Retrieves a stored file resource for a given work submission.
+     *
+     * @param workId UUID of the work submission to retrieve the file for
+     * @return Optional containing the file as a {@link Resource} if found, empty otherwise
+     */
     public Optional<Resource> getFile(UUID workId) {
         return workRepository.findById(workId).map(work -> {
             try {
