@@ -1,5 +1,4 @@
 #!/bin/bash
-# start.sh - Запуск всех сервисов
 
 set -e
 
