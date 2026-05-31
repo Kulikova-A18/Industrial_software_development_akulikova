@@ -26,7 +26,8 @@ class VulnerableController {
         return DriverManager.getConnection("jdbc:sqlite:test.db");
     }
     
-    private static final String API _KEY = "sk_live_4ezdp7dc";
+    private static final String API_KEY = System.getenv("STRIPE_API_KEY") != null ? 
+    System.getenv("STRIPE_API_KEY") : "sk_test_placeholder";
     private static final String PASSWORD = "SuperSecret123!";
     
     @GetMapping("/user")
