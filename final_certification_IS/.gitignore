@@ -1,12 +1,13 @@
 # Java compiled
 *.class
 target/
+*/target/
 *.jar
 *.war
 
 # Security reports
+*security-reports/
 security-reports/
-01security-reports/
 *.json
 !pom.xml
 
@@ -24,3 +25,4 @@ Thumbs.db
 
 # Logs
 *.log
+*.png
