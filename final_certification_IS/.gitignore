@@ -1,0 +1,28 @@
+# Java compiled
+*.class
+target/
+*/target/
+*.jar
+*.war
+
+# Security reports
+*security-reports/
+security-reports/
+*.json
+!pom.xml
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+*.png
