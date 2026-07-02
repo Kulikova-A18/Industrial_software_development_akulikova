@@ -1,0 +1,114 @@
+2026-07-02 21:08:34 [main] INFO  c.s.SatelliteServiceApplication - Starting SatelliteServiceApplication v1.0.0 using Java 17.0.19 with PID 284377 (/home/vboxuser/Industrial_software_development_akulikova/hw1-3_autotest/hw1_backend_tests/target/satellite-service-1.0.0.jar started by vboxuser in /home/vboxuser/Industrial_software_development_akulikova/hw1-3_autotest/hw1_backend_tests)
+2026-07-02 21:08:34 [main] DEBUG c.s.SatelliteServiceApplication - Running with Spring Boot v3.2.0, Spring v6.1.1
+2026-07-02 21:08:34 [main] INFO  c.s.SatelliteServiceApplication - No active profile set, falling back to 1 default profile: "default"
+2026-07-02 21:08:37 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-07-02 21:08:37 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2026-07-02 21:08:37 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-07-02 21:08:37 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-07-02 21:08:37 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2782 ms
+2026-07-02 21:08:37 [main] INFO  c.satellite.service.SatelliteService - Initialized 5 test satellites
+2026-07-02 21:08:38 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 3 endpoint(s) beneath base path '/actuator'
+2026-07-02 21:08:38 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2026-07-02 21:08:38 [main] INFO  c.s.SatelliteServiceApplication - Started SatelliteServiceApplication in 5.542 seconds (process running for 6.564)
+2026-07-02 21:09:18 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-07-02 21:09:18 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-07-02 21:09:18 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-07-02 21:09:18 [http-nio-8080-exec-1] DEBUG c.s.controller.SatelliteController - REST request to get all satellites
+2026-07-02 21:09:18 [http-nio-8080-exec-1] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:09:18 [http-nio-8080-exec-3] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: altitude
+2026-07-02 21:09:18 [http-nio-8080-exec-3] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: altitude
+2026-07-02 21:09:18 [http-nio-8080-exec-3] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:09:18 [http-nio-8080-exec-4] INFO  c.s.controller.SatelliteController - REST request to create satellite: TestSat
+2026-07-02 21:09:18 [http-nio-8080-exec-4] INFO  c.satellite.service.SatelliteService - Created new satellite: TestSat (ID: 6)
+2026-07-02 21:09:18 [http-nio-8080-exec-5] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 1
+2026-07-02 21:09:18 [http-nio-8080-exec-5] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 1
+2026-07-02 21:09:18 [http-nio-8080-exec-6] INFO  c.s.controller.SatelliteController - REST request to update satellite id: 1
+2026-07-02 21:09:18 [http-nio-8080-exec-6] INFO  c.satellite.service.SatelliteService - Updated satellite ID: 1
+2026-07-02 21:09:18 [http-nio-8080-exec-7] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 1
+2026-07-02 21:09:18 [http-nio-8080-exec-7] INFO  c.satellite.service.SatelliteService - Deleted satellite: UpdatedSat (ID: 1)
+2026-07-02 21:10:06 [http-nio-8080-exec-1] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: name
+2026-07-02 21:10:06 [http-nio-8080-exec-1] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: name
+2026-07-02 21:10:06 [http-nio-8080-exec-1] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-3] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: inclination
+2026-07-02 21:10:07 [http-nio-8080-exec-3] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: inclination
+2026-07-02 21:10:07 [http-nio-8080-exec-3] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-4] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: speed
+2026-07-02 21:10:07 [http-nio-8080-exec-4] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: speed
+2026-07-02 21:10:07 [http-nio-8080-exec-4] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-5] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: altitude
+2026-07-02 21:10:07 [http-nio-8080-exec-5] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: altitude
+2026-07-02 21:10:07 [http-nio-8080-exec-5] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-6] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: altitude
+2026-07-02 21:10:07 [http-nio-8080-exec-6] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: altitude
+2026-07-02 21:10:07 [http-nio-8080-exec-6] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-7] DEBUG c.s.controller.SatelliteController - REST request to get all satellites
+2026-07-02 21:10:07 [http-nio-8080-exec-7] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-8] DEBUG c.s.controller.SatelliteController - REST request to get all satellites
+2026-07-02 21:10:07 [http-nio-8080-exec-8] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 5
+2026-07-02 21:10:07 [http-nio-8080-exec-9] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 2
+2026-07-02 21:10:07 [http-nio-8080-exec-9] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 2
+2026-07-02 21:10:07 [http-nio-8080-exec-10] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 999999
+2026-07-02 21:10:07 [http-nio-8080-exec-10] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 999999
+2026-07-02 21:10:07 [http-nio-8080-exec-9] INFO  c.s.controller.SatelliteController - REST request to create satellite: Test-Sat-1783015807886
+2026-07-02 21:10:07 [http-nio-8080-exec-9] INFO  c.satellite.service.SatelliteService - Created new satellite: Test-Sat-1783015807886 (ID: 7)
+2026-07-02 21:10:08 [http-nio-8080-exec-10] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 7
+2026-07-02 21:10:08 [http-nio-8080-exec-10] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 7
+2026-07-02 21:10:08 [http-nio-8080-exec-2] INFO  c.s.controller.SatelliteController - REST request to create satellite: ToUpdate-Sat-1783015808107
+2026-07-02 21:10:08 [http-nio-8080-exec-2] INFO  c.satellite.service.SatelliteService - Created new satellite: ToUpdate-Sat-1783015808107 (ID: 8)
+2026-07-02 21:10:08 [http-nio-8080-exec-1] INFO  c.s.controller.SatelliteController - REST request to update satellite id: 8
+2026-07-02 21:10:08 [http-nio-8080-exec-1] INFO  c.satellite.service.SatelliteService - Updated satellite ID: 8
+2026-07-02 21:10:08 [http-nio-8080-exec-3] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 8
+2026-07-02 21:10:08 [http-nio-8080-exec-3] INFO  c.satellite.service.SatelliteService - Deleted satellite: Updated-Sat-1783015808138 (ID: 8)
+2026-07-02 21:10:08 [http-nio-8080-exec-4] INFO  c.s.controller.SatelliteController - REST request to update satellite id: 999999
+2026-07-02 21:10:08 [http-nio-8080-exec-4] WARN  c.satellite.service.SatelliteService - Satellite with id 999999 not found for update
+2026-07-02 21:10:08 [http-nio-8080-exec-5] INFO  c.s.controller.SatelliteController - REST request to create satellite: Test-Sat-1783015808237
+2026-07-02 21:10:08 [http-nio-8080-exec-5] INFO  c.satellite.service.SatelliteService - Created new satellite: Test-Sat-1783015808237 (ID: 9)
+2026-07-02 21:10:08 [http-nio-8080-exec-6] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 9
+2026-07-02 21:10:08 [http-nio-8080-exec-6] INFO  c.satellite.service.SatelliteService - Deleted satellite: Test-Sat-1783015808237 (ID: 9)
+2026-07-02 21:10:08 [http-nio-8080-exec-7] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 9
+2026-07-02 21:10:08 [http-nio-8080-exec-7] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 9
+2026-07-02 21:10:08 [http-nio-8080-exec-8] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 999999
+2026-07-02 21:10:08 [http-nio-8080-exec-8] WARN  c.satellite.service.SatelliteService - Satellite with id 999999 not found for deletion
+2026-07-02 21:10:16 [http-nio-8080-exec-10] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: name
+2026-07-02 21:10:16 [http-nio-8080-exec-10] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: name
+2026-07-02 21:10:16 [http-nio-8080-exec-10] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:18 [http-nio-8080-exec-4] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: inclination
+2026-07-02 21:10:18 [http-nio-8080-exec-4] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: inclination
+2026-07-02 21:10:18 [http-nio-8080-exec-4] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:18 [http-nio-8080-exec-2] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: speed
+2026-07-02 21:10:18 [http-nio-8080-exec-2] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: speed
+2026-07-02 21:10:18 [http-nio-8080-exec-2] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:18 [http-nio-8080-exec-1] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: altitude
+2026-07-02 21:10:18 [http-nio-8080-exec-1] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: altitude
+2026-07-02 21:10:18 [http-nio-8080-exec-1] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:18 [http-nio-8080-exec-5] INFO  c.s.controller.SatelliteController - REST request to check satellite order by: altitude
+2026-07-02 21:10:18 [http-nio-8080-exec-5] INFO  c.satellite.service.SatelliteService - Checking satellite order by parameter: altitude
+2026-07-02 21:10:18 [http-nio-8080-exec-5] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:18 [http-nio-8080-exec-7] DEBUG c.s.controller.SatelliteController - REST request to get all satellites
+2026-07-02 21:10:18 [http-nio-8080-exec-7] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:19 [http-nio-8080-exec-8] DEBUG c.s.controller.SatelliteController - REST request to get all satellites
+2026-07-02 21:10:19 [http-nio-8080-exec-8] DEBUG c.satellite.service.SatelliteService - Fetching all satellites. Total count: 6
+2026-07-02 21:10:19 [http-nio-8080-exec-9] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 2
+2026-07-02 21:10:19 [http-nio-8080-exec-9] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 2
+2026-07-02 21:10:19 [http-nio-8080-exec-1] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 999999
+2026-07-02 21:10:19 [http-nio-8080-exec-1] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 999999
+2026-07-02 21:10:19 [http-nio-8080-exec-7] INFO  c.s.controller.SatelliteController - REST request to create satellite: Test-Sat-1783015819399
+2026-07-02 21:10:19 [http-nio-8080-exec-7] INFO  c.satellite.service.SatelliteService - Created new satellite: Test-Sat-1783015819399 (ID: 10)
+2026-07-02 21:10:19 [http-nio-8080-exec-8] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 10
+2026-07-02 21:10:19 [http-nio-8080-exec-8] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 10
+2026-07-02 21:10:19 [http-nio-8080-exec-9] INFO  c.s.controller.SatelliteController - REST request to create satellite: ToUpdate-Sat-1783015819753
+2026-07-02 21:10:19 [http-nio-8080-exec-9] INFO  c.satellite.service.SatelliteService - Created new satellite: ToUpdate-Sat-1783015819753 (ID: 11)
+2026-07-02 21:10:19 [http-nio-8080-exec-3] INFO  c.s.controller.SatelliteController - REST request to update satellite id: 11
+2026-07-02 21:10:19 [http-nio-8080-exec-3] INFO  c.satellite.service.SatelliteService - Updated satellite ID: 11
+2026-07-02 21:10:19 [http-nio-8080-exec-6] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 11
+2026-07-02 21:10:19 [http-nio-8080-exec-6] INFO  c.satellite.service.SatelliteService - Deleted satellite: Updated-Sat-1783015819816 (ID: 11)
+2026-07-02 21:10:20 [http-nio-8080-exec-10] INFO  c.s.controller.SatelliteController - REST request to update satellite id: 999999
+2026-07-02 21:10:20 [http-nio-8080-exec-10] WARN  c.satellite.service.SatelliteService - Satellite with id 999999 not found for update
+2026-07-02 21:10:20 [http-nio-8080-exec-4] INFO  c.s.controller.SatelliteController - REST request to create satellite: Test-Sat-1783015820063
+2026-07-02 21:10:20 [http-nio-8080-exec-4] INFO  c.satellite.service.SatelliteService - Created new satellite: Test-Sat-1783015820063 (ID: 12)
+2026-07-02 21:10:20 [http-nio-8080-exec-2] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 12
+2026-07-02 21:10:20 [http-nio-8080-exec-2] INFO  c.satellite.service.SatelliteService - Deleted satellite: Test-Sat-1783015820063 (ID: 12)
+2026-07-02 21:10:20 [http-nio-8080-exec-1] DEBUG c.s.controller.SatelliteController - REST request to get satellite by id: 12
+2026-07-02 21:10:20 [http-nio-8080-exec-1] DEBUG c.satellite.service.SatelliteService - Fetching satellite by id: 12
+2026-07-02 21:10:20 [http-nio-8080-exec-5] INFO  c.s.controller.SatelliteController - REST request to delete satellite id: 999999
+2026-07-02 21:10:20 [http-nio-8080-exec-5] WARN  c.satellite.service.SatelliteService - Satellite with id 999999 not found for deletion
