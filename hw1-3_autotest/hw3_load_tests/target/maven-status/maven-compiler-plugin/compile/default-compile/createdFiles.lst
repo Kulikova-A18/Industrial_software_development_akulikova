@@ -1,0 +1,6 @@
+com/satellite/model/Satellite.class
+com/satellite/controller/SatelliteController.class
+com/satellite/dto/SatellitesOrderResponse.class
+com/satellite/dto/SatellitesOrderResponse$SatelliteInfo.class
+com/satellite/SatelliteServiceApplication.class
+com/satellite/service/SatelliteService.class

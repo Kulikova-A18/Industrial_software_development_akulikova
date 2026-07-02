@@ -1,0 +1,398 @@
+{
+  "root_group": {
+    "name": "",
+    "path": "",
+    "id": "d41d8cd98f00b204e9800998ecf8427e",
+    "groups": [
+      {
+        "groups": [
+          {
+            "checks": [
+              {
+                "passes": 983,
+                "fails": 0,
+                "name": "status is 200",
+                "path": "::Бизнес-сценарий: проверка и управление спутниками::Получение списка спутников::status is 200",
+                "id": "494e3b91b615d7f4f2a2ba185ab0da07"
+              },
+              {
+                "name": "response has data",
+                "path": "::Бизнес-сценарий: проверка и управление спутниками::Получение списка спутников::response has data",
+                "id": "502e632fd79b9a95603caacd01c87d02",
+                "passes": 983,
+                "fails": 0
+              }
+            ],
+            "name": "Получение списка спутников",
+            "path": "::Бизнес-сценарий: проверка и управление спутниками::Получение списка спутников",
+            "id": "a60ed3c01cf597c467b2a77ebf3612df",
+            "groups": []
+          },
+          {
+            "name": "Проверка порядка спутников",
+            "path": "::Бизнес-сценарий: проверка и управление спутниками::Проверка порядка спутников",
+            "id": "7e89baf0a65302fff3e392814da30554",
+            "groups": [],
+            "checks": [
+                {
+                  "passes": 983,
+                  "fails": 0,
+                  "name": "check-order status is 200",
+                  "path": "::Бизнес-сценарий: проверка и управление спутниками::Проверка порядка спутников::check-order status is 200",
+                  "id": "173a0e2528019ed40614d92021051d16"
+                },
+                {
+                  "fails": 0,
+                  "name": "has ordered field",
+                  "path": "::Бизнес-сценарий: проверка и управление спутниками::Проверка порядка спутников::has ordered field",
+                  "id": "64cdee4ce2e937b2ce90755b02f38dcf",
+                  "passes": 983
+                },
+                {
+                  "fails": 0,
+                  "name": "has orderType field",
+                  "path": "::Бизнес-сценарий: проверка и управление спутниками::Проверка порядка спутников::has orderType field",
+                  "id": "0c77598c1b20302aa695f38c5e1f49a3",
+                  "passes": 983
+                }
+              ]
+          },
+          {
+            "checks": [
+              {
+                "fails": 0,
+                "name": "create status is 201",
+                "path": "::Бизнес-сценарий: проверка и управление спутниками::Создание нового спутника::create status is 201",
+                "id": "696000065bcadae7dadb31f2e870ee0f",
+                "passes": 983
+              },
+              {
+                "id": "54c6655264954df8005a53866a85925c",
+                "passes": 983,
+                "fails": 0,
+                "name": "created satellite has id",
+                "path": "::Бизнес-сценарий: проверка и управление спутниками::Создание нового спутника::created satellite has id"
+              },
+              {
+                "id": "a5debf22f1e58f96bf7e10c0b4911e4c",
+                "passes": 983,
+                "fails": 0,
+                "name": "name matches",
+                "path": "::Бизнес-сценарий: проверка и управление спутниками::Создание нового спутника::name matches"
+              }
+            ],
+            "name": "Создание нового спутника",
+            "path": "::Бизнес-сценарий: проверка и управление спутниками::Создание нового спутника",
+            "id": "df112005a4d688f412d813a73e8a3b3e",
+            "groups": []
+          },
+          {
+            "checks": [
+              {
+                "passes": 983,
+                "fails": 0,
+                "name": "get-by-id status is 200 or 404",
+                "path": "::Бизнес-сценарий: проверка и управление спутниками::Получение спутника по ID::get-by-id status is 200 or 404",
+                "id": "f0c17c753332a810aabb47f949d2b3f1"
+              }
+            ],
+            "name": "Получение спутника по ID",
+            "path": "::Бизнес-сценарий: проверка и управление спутниками::Получение спутника по ID",
+            "id": "21fd9225d941e29b9e290054a96f8670",
+            "groups": []
+          },
+          {
+            "id": "446af0d0b8c8c919a3be5ea41eb97dc2",
+            "groups": [],
+            "checks": [
+                {
+                  "name": "update status is 200 or 404",
+                  "path": "::Бизнес-сценарий: проверка и управление спутниками::Обновление спутника::update status is 200 or 404",
+                  "id": "0cf72572d4456335dd7416e0d81bc69d",
+                  "passes": 983,
+                  "fails": 0
+                }
+              ],
+            "name": "Обновление спутника",
+            "path": "::Бизнес-сценарий: проверка и управление спутниками::Обновление спутника"
+          }
+        ],
+        "checks": [],
+        "name": "Бизнес-сценарий: проверка и управление спутниками",
+        "path": "::Бизнес-сценарий: проверка и управление спутниками",
+        "id": "26ca3c77d8b00bb4028e6c7a8b6a4132"
+      }
+    ],
+    "checks": []
+  },
+  "options": {
+    "summaryTrendStats": [
+      "avg",
+      "min",
+      "med",
+      "max",
+      "p(90)",
+      "p(95)"
+    ],
+    "summaryTimeUnit": "",
+    "noColor": false
+  },
+  "state": {
+    "isStdOutTTY": true,
+    "isStdErrTTY": true,
+    "testRunDurationMs": 95043.115283
+  },
+  "metrics": {
+    "create_satellite_duration": {
+      "type": "trend",
+      "contains": "default",
+      "values": {
+        "med": 1.305246,
+        "max": 31.569275,
+        "p(90)": 4.791870400000006,
+        "p(95)": 6.437123099999997,
+        "avg": 2.1726442817904346,
+        "min": 0.301026
+      }
+    },
+    "http_req_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 7.9164922,
+        "p(95)": 10.436505100000002,
+        "avg": 3.5540001733468967,
+        "min": 0.259919,
+        "med": 2.47349,
+        "max": 54.894015
+      },
+      "thresholds": {
+        "p(95)<2000": {
+          "ok": true
+        }
+      }
+    },
+    "successful_checks": {
+      "values": {
+        "count": 983,
+        "rate": 10.342674449096318
+      },
+      "type": "counter",
+      "contains": "default"
+    },
+    "http_req_sending": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 0.03421931129196339,
+        "min": 0.004128,
+        "med": 0.019587,
+        "max": 5.249105,
+        "p(90)": 0.04357900000000002,
+        "p(95)": 0.06058200000000001
+      }
+    },
+    "data_sent": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 809667,
+        "rate": 8518.944245347375
+      }
+    },
+    "errors": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0,
+        "passes": 0,
+        "fails": 2949
+      },
+      "thresholds": {
+        "rate<0.1": {
+          "ok": true
+        }
+      }
+    },
+    "iterations": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 983,
+        "rate": 10.342674449096318
+      }
+    },
+    "http_req_connecting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0,
+        "med": 0,
+        "max": 2.406248,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0.007924656968463888
+      }
+    },
+    "get_satellites_duration": {
+      "values": {
+        "max": 54.894015,
+        "p(90)": 12.790420800000003,
+        "p(95)": 16.526632399999997,
+        "avg": 7.1483247090539175,
+        "min": 2.27462,
+        "med": 5.642097
+      },
+      "type": "trend",
+      "contains": "default"
+    },
+    "http_req_failed": {
+      "type": "rate",
+      "contains": "default",
+      "values": {
+        "rate": 0.08402848423194303,
+        "passes": 413,
+        "fails": 4502
+      }
+    },
+    "iteration_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 6034.522100252286,
+        "min": 6014.290857,
+        "med": 6031.6934,
+        "max": 6116.03103,
+        "p(90)": 6051.1476178,
+        "p(95)": 6057.6501988
+      }
+    },
+    "http_req_duration{expected_response:true}": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 3.710924736783645,
+        "min": 0.259919,
+        "med": 2.6284280000000004,
+        "max": 54.894015,
+        "p(90)": 8.1604803,
+        "p(95)": 10.65258085
+      }
+    },
+    "http_req_receiving": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(90)": 4.032507200000003,
+        "p(95)": 6.264754900000002,
+        "avg": 1.3152083088504556,
+        "min": 0.011461,
+        "med": 0.143131,
+        "max": 36.432209
+      }
+    },
+    "group_duration": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 1010.6023341803985,
+        "min": 0.320726,
+        "med": 4.7551515,
+        "max": 6116.012284,
+        "p(90)": 6029.029633499999,
+        "p(95)": 6038.298444999999
+      }
+    },
+    "vus_max": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "value": 100,
+        "min": 100,
+        "max": 100
+      }
+    },
+    "data_received": {
+      "type": "counter",
+      "contains": "data",
+      "values": {
+        "count": 349776784,
+        "rate": 3680190.647776075
+      }
+    },
+    "http_req_blocked": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "p(95)": 0.01232100000000001,
+        "avg": 0.016213866937945104,
+        "min": 0.001884,
+        "med": 0.00523,
+        "max": 2.761607,
+        "p(90)": 0.008907
+      }
+    },
+    "vus": {
+      "type": "gauge",
+      "contains": "default",
+      "values": {
+        "min": 1,
+        "max": 100,
+        "value": 1
+      }
+    },
+    "check_order_duration": {
+      "type": "trend",
+      "contains": "default",
+      "values": {
+        "min": 1.246983,
+        "med": 3.288953,
+        "max": 37.101223,
+        "p(90)": 8.098999000000001,
+        "p(95)": 10.5465174,
+        "avg": 4.40870846592065
+      }
+    },
+    "http_reqs": {
+      "type": "counter",
+      "contains": "default",
+      "values": {
+        "count": 4915,
+        "rate": 51.713372245481594
+      }
+    },
+    "http_req_waiting": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "avg": 2.2045725532044753,
+        "min": 0.226455,
+        "med": 1.387529,
+        "max": 25.031626,
+        "p(90)": 4.7780222000000006,
+        "p(95)": 6.505844800000001
+      }
+    },
+    "http_req_tls_handshaking": {
+      "type": "trend",
+      "contains": "time",
+      "values": {
+        "min": 0,
+        "med": 0,
+        "max": 0,
+        "p(90)": 0,
+        "p(95)": 0,
+        "avg": 0
+      }
+    },
+    "checks": {
+      "contains": "default",
+      "values": {
+        "passes": 9830,
+        "fails": 0,
+        "rate": 1
+      },
+      "type": "rate"
+    }
+  }
+}
